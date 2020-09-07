@@ -1,0 +1,13 @@
+.settingsDiv {
+    height: 85%;
+    background-color: #212121;
+}
+
+.settingsHeader {
+    width: 100%;
+}
+
+.themesSection ul {
+    font-size: 1rem;
+    list-style-type: none;
+}

@@ -7,7 +7,7 @@
     <div class="memePanelDiv h-100 d-flex justify-content-center">
         <div class="memePanelMainDiv rounded">
             {% if paths is empty %}
-            <div class="flexItemParentPaths flexItemsParent justify-content-start flex-wrap mb-5"></div>
+            <div class="flexItemParentPaths flexItemsParent justify-content-start flex-wrap"></div>
             {% else %}
                 <span class="memeSectionTitleDir mb-3 ml-2">Directories</span>
                 <div class="flexItemParentPaths flexItemsParent justify-content-start flex-wrap mb-5">
@@ -43,6 +43,15 @@
                             </div>
                         </div>
                     {% endfor %}
+                </div>
+            {% endif %}
+            {% if paths is empty and memes is empty %}
+                <div id="emptyDirectoryId" class="d-flex w-100 h-100 emptyDirectory align-items-center justify-content-center">
+                    <div class="d-flex w-100 h-25 p-5 rounded align-items-center justify-content-center">
+                        <span>
+                            {{ emptyDirMessage }}
+                        </span>
+                    </div>
                 </div>
             {% endif %}
         </div>
