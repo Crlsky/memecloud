@@ -32,7 +32,7 @@ document.getElementById('btnAddMeme').addEventListener('click', (e) => {
         if (document.querySelector('.flexItemParentMemes').innerHTML == "") {
             let memeSpan = document.createElement('span');
             memeSpan.append("Memes");
-            memeSpan.classList.add("memeSectionTitle", "mt-5", "mb-3", "ml-2");
+            memeSpan.classList.add("memeSectionTitle", "mb-3", "ml-2");
 
             document.querySelector('.flexItemParentMemes').before(memeSpan);
 

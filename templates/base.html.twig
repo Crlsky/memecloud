@@ -113,8 +113,7 @@
 
     <header class="masthead">
         <div class="bgImage"></div> 
-        <div class="container d-flex h-100 align-items-center">
-            
+        <div class="container d-flex h-100 align-items-center">         
             {# Nawigacja dla podstron logowania i rejestracji #}
             {% if app.request.get('_route') == 'app_login' %}
                 {% block loginNav %}
@@ -127,24 +126,27 @@
                     <a href="{{ path('app_login') }}" class="btn btnForward"><span>Sign in</span><i class="fas fa-arrow-right"></i></a>
                 {% endblock %}
             {% elseif app.request.get('_route') == 'meme_panel' %} 
-                <div class="pathsTree text-uppercase">
+            <div class="pathsTreeMainDiv d-flex justify-content-start"> 
+                <div class="pathsTree rounded pl-2 pr-2 text-uppercase">
                     <a href="{{ path('meme_panel') }}">
                             {{ pathTreeName }}   
                     </a>   
-                </div>    
-            {% elseif app.request.get('_route') == 'directory' %}        
+                </div>
+            </div>        
+            {% elseif app.request.get('_route') == 'directory' %}       
+            <div class="pathsTreeMainDiv d-flex justify-content-start"> 
                 {% if pathsTree['main_path'] is defined %}
-                    <div class="pathsTree text-uppercase">
+                    <div class="pathsTree rounded pl-2 pr-2 text-uppercase">
                         <a href="{{ path('meme_panel') }}">
                                 {{ pathsTree['main_path'] }}    
                         </a>   
                         <i class="fas fa-angle-right"></i>
                         <a href="/meme/{{pathsTree['current_path_id']}}">
-                            <u>{{ pathsTree['current_path_name'] }}</u> 
+                            <span class="rounded">{{ pathsTree['current_path_name'] }}</span>
                         </a>
                     </div>    
                 {% else %}
-                    <div class="pathsTree text-uppercase">
+                    <div class="pathsTree rounded pl-2 pr-2 text-uppercase">
                         <a href="{{ path('meme_panel') }}">
                                 Main directory     
                         </a>
@@ -154,10 +156,11 @@
                         </a> 
                         <i class="fas fa-angle-right"></i>
                         <a href="/meme/{{pathsTree['current_path_id']}}">
-                            <u>{{ pathsTree['current_path_name'] }}</u>
+                            <span class="rounded">{{ pathsTree['current_path_name'] }}</span>
                         </a>
                     </div>  
-                {% endif %}                 
+                {% endif %}
+            </div>                     
             {% endif %}
             
             {# Główny content każdej strony #}

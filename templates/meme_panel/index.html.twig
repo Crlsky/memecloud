@@ -7,10 +7,10 @@
     <div class="memePanelDiv h-100 d-flex justify-content-center">
         <div class="memePanelMainDiv rounded">
             {% if paths is empty %}
-            <div class="flexItemParentPaths flexItemsParent justify-content-start flex-wrap"></div>
+            <div class="flexItemParentPaths flexItemsParent justify-content-start flex-wrap mb-5"></div>
             {% else %}
                 <span class="memeSectionTitleDir mb-3 ml-2">Directories</span>
-                <div class="flexItemParentPaths flexItemsParent justify-content-start flex-wrap">
+                <div class="flexItemParentPaths flexItemsParent justify-content-start flex-wrap mb-5">
                     {% for path in paths %}
                         <div class="pathItemsContext pathItem rounded flex-item ml-2 mr-2 mb-3" data-path-id="{{ path[0] }}">
                             <a class="directoryRoute" href="{{ path('directory', { 'slug': path[0] }) }}">
@@ -29,7 +29,7 @@
             {% if memes is empty %}
             <div class="flexItemParentMemes flexItemsParent justify-content-start flex-wrap"></div>
             {% else %}
-                <span class="memeSectionTitle mt-5 mb-3 ml-2"><span>Memes</span></span>
+                <span class="memeSectionTitle mb-3 ml-2"><span>Memes</span></span>
                 <div class="flexItemParentMemes flexItemsParent justify-content-start flex-wrap">
                     {% for meme in memes %}
                         <div class="pathItemMeme rounded flex-item ml-2 mr-2 mb-3" data-meme-id="{{ meme[0] }}">
