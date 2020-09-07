@@ -1,0 +1,100 @@
+ {% block modal %}
+    <!-- Modal create new directory -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New directory</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input id="directoryName" name="directoryName" type="text" class="form-control" value="new_directory">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button id="btnAddDirectory" type="button" class="btn btn-primary" data-dismiss="modal">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal END -->
+
+    <!-- Modal add meme -->
+    <div class="modal fade" id="addMemeModal" tabindex="-1" role="dialog" aria-labelledby="addMemeModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addMemeModal">Add new meme</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input id="memeNameInput" type="text" class="form-control" value="new_meme" />
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFileLang" lang="en">
+                        <label class="custom-file-label" for="customFileLang">Select meme</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button id="btnAddMeme" type="button" class="btn btn-primary" data-dismiss="modal">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal END -->
+
+    <!-- Modal rename directory -->
+    <div class="modal fade" id="renameModal" tabindex="-1" role="dialog" aria-labelledby="renameModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Rename directory</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input id="renameName" name="directoryName" type="text" class="form-control" value="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button id="btnRename" type="button" class="btn btn-primary" data-dismiss="modal">Rename</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal END -->
+
+    <!-- Modal rename image -->
+    <div class="modal fade" id="renameImgModal" tabindex="-1" role="dialog" aria-labelledby="renameImgModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Rename image</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input id="renameImageName" name="directoryName" type="text" class="form-control" value="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button id="btnImgRename" type="button" class="btn btn-primary" data-dismiss="modal">Rename</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal END -->
+    <!-- Popup info  -->
+    <div class="popupInfo rounded pt-4 pb-4 pl-3 pr-3">
+        <span id="popupSpan"></span>
+    </div>
+    <!-- Popup info END  -->
+{% endblock %}

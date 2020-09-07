@@ -1,0 +1,139 @@
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-left: -250px;
+    background-color: #212121;
+    z-index: 9999;
+    transition: all 0.2s ease-in-out;
+}
+
+.sidebar-header {
+    border-bottom: solid 1px #414141;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 998;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+.overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+#dismiss {
+    color: #fff;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #414141;
+    border-radius: 50%;
+}
+
+.sidebarMenu {
+    list-style-type: none;
+    border-bottom: solid 1px #414141;
+}
+
+.sidebarItem {
+    padding: 0 !important;
+}
+
+.sidebarItem a {
+    color: #fff;
+    padding: 0.5rem 1.5rem !important;
+}
+
+.sidebarItem a span svg {
+    vertical-align: sub;
+}
+
+.sidebarItem a:hover {
+    color: #fff;
+    background-color: #414141;
+}
+
+.sidebarIco {
+    font-size: 22px;
+    width: 30px !important;
+    margin-right: 15px;
+}
+
+.sidebarItemText {
+    font-size: 16px;
+    vertical-align: text-bottom;
+}
+
+.sidebarInfoLinks {
+    position: absolute;
+    bottom: 90px;
+    font-size: 14px;
+    padding: 0 5px;
+}
+
+.sidebarInfoLinks .sidebarInfoLinkList li a {
+    color: #585656;
+    text-decoration: none;
+}
+
+.sidebarInfoLinks .sidebarInfoLinkList li a:hover {
+    color: #32a632;
+    text-decoration: none;
+}
+
+.sidebarInfoLinkList li {
+    display: inline-block;
+    list-style-type: disc !important;
+}
+
+.sidebarExpandBtn {
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    color: #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #212121;
+    border-radius: 50%;
+}
+
+.sidebarSocial {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+}
+
+.sidebarSocial a, .sidebarSocial a:hover {
+    color: #fff;
+    margin-right: 8px;
+}
+
+.sidebarCredentials {
+    position: absolute;
+    color: #fff;
+    padding: 8px 4px;
+    font-size: 14px;
+    bottom: 40px;
+}
+
+.sidebarCredentials span {
+    background-color: #000;
+    font-weight: 500;
+}
+
+.githubName, .githubName:hover {
+    color: #32a632;
+    text-decoration: none;
+}

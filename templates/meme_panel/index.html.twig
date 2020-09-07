@@ -1,0 +1,51 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ pageName }} - {{ brand }}{% endblock %}
+
+{% block body %}
+<div class="siteContent w-100 h-100 mx-auto text-center">
+    <div class="memePanelDiv h-100 d-flex justify-content-center">
+        <div class="memePanelMainDiv rounded">
+            {% if paths is empty %}
+            <div class="flexItemParentPaths flexItemsParent justify-content-start flex-wrap"></div>
+            {% else %}
+                <span class="memeSectionTitleDir mb-3 ml-2">Directories</span>
+                <div class="flexItemParentPaths flexItemsParent justify-content-start flex-wrap">
+                    {% for path in paths %}
+                        <div class="pathItemsContext pathItem rounded flex-item ml-2 mr-2 mb-3" data-path-id="{{ path[0] }}">
+                            <a class="directoryRoute" href="{{ path('directory', { 'slug': path[0] }) }}">
+                                <div class="directoryImgDiv h-100">
+                                    <i class="fas fa-folder directoryImg fa-2x"></i>
+                                </div>
+                                <div class="directoryPathNameDiv h-100">
+                                    <span data-path-id="{{ path[0] }}">{{ path[1] }}</span>
+                                </div>
+                            </a>
+                        </div>        
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if memes is empty %}
+            <div class="flexItemParentMemes flexItemsParent justify-content-start flex-wrap"></div>
+            {% else %}
+                <span class="memeSectionTitle mt-5 mb-3 ml-2"><span>Memes</span></span>
+                <div class="flexItemParentMemes flexItemsParent justify-content-start flex-wrap">
+                    {% for meme in memes %}
+                        <div class="pathItemMeme rounded flex-item ml-2 mr-2 mb-3" data-meme-id="{{ meme[0] }}">
+                        <div class="pathItemMemeDiv rounded-top w-100">
+                            <a href="../imgs/{{ meme[1] }}" rel="lytebox">
+                                <img class="singleMemeImg rounded-top" rel="lytebox" src="/imgs/{{ meme[1] }}" />
+                            </a>    
+                        </div>    
+                            <div class="directoryMemeNameDiv rounded-bottom">
+                                <span data-meme-id="{{ meme[0] }}">{{ meme[2] }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

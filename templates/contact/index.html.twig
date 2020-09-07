@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ pageName }} - {{ brand }}{% endblock %}
+
+{% block body %}
+    <div class="siteContent mx-auto text-center">
+        <h1 class="mx-auto my-5">{{ pageName }}</h1>
+        <h2 class="mx-auto my-2 font-weight-bold">E-mail</h2>
+        <p class="contactInfo font-weight-bold">{{ mail }}</p>
+    </div>
+{% endblock %}

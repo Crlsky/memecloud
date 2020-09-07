@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ pageName }} - {{ brand }}{% endblock %}
+
+{% block body %}
+<div class="siteContentLogin mx-auto text-center">
+    <form method="post" class="text-center">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        {% endif %}
+
+        <h1 class="h3 mb-3 font-weight-normal">{{ pageName }}</h1>
+        <input id="email" type="email" value="{{ username }}" name="email" id="inputEmail" class="form-control mb-3 loginInput" placeholder="Email" onfocus="blurIt(true)" onblur="this.placeholder = 'Email'" required>
+        <input id="password" type="password" name="password" id="inputPassword" class="form-control loginInput" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" required>
+
+        <input type="hidden" name="_csrf_token"
+            value="{{ csrf_token('authenticate') }}"
+        >
+
+        <div class="checkbox mb-3 mt-3 registerCheckbox">
+            <label>
+                <span class="ml-3 text-light required">Remember me</span><input type="checkbox" name="_remember_me">
+            </label>
+        </div>
+
+        <button class="btn btn-login mt-2" type="submit">
+            {{ pageName }}
+        </button>
+    </form>
+</div>
+{% endblock %}

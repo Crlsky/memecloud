@@ -1,0 +1,21 @@
+lexik_jwt_authentication:
+    secret_key:       '%kernel.project_dir%/config/jwt/private.pem' # required for token creation
+    public_key:       '%kernel.project_dir%/config/jwt/public.pem'  # required for token verification
+    pass_phrase:      'meme' # required for token creation, usage of an environment variable is recommended
+    token_ttl:        259200
+    clock_skew: 0
+
+  # token extraction settings
+    token_extractors:
+      # check token in a cookie
+      cookie:
+          enabled: true
+          name: extension_token
+    
+    set_cookies:
+      extension_token:
+        lifetime: 259200
+        samesite: lax
+        path: /
+        domain: null
+

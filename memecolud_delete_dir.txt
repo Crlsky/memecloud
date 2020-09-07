@@ -1,0 +1,90 @@
+---------------------------DZIAŁAJĄCA PRODCEDURA---------------------------------
+BEGIN
+    DECLARE _id INT;
+    DECLARE _id_parent INT;
+    DECLARE _id_user INT;
+	
+	 SET @@GLOBAL.max_sp_recursion_depth = 255;
+	 SET @@session.max_sp_recursion_depth = 255;
+	
+    SET _id = id_folder_to_delete;
+    SET _id_user = id_user;
+
+    DELETE FROM localization 
+	 WHERE id = _id
+	 AND id_user = _id_user;
+	 
+	 DELETE FROM memes
+	 WHERE id_directory = _id
+	 AND id_user = _id_user;
+
+    delete_all_child: LOOP
+		
+		SELECT    CASE WHEN count(a.id) < 1 THEN -1 ELSE a.id END, a.id_parent
+		INTO      _id, _id_parent
+		FROM      localization a
+		WHERE     a.id_parent = _id AND a.id_user = _id_user OR a.id_parent = _id_parent
+		ORDER BY  a.id, a.id_parent
+		LIMIT 1;
+		
+		IF _id <> -1 THEN
+			CALL DeleteDirAndMemes(_id, _id_user);
+		END IF;
+		
+		SET _id = (
+			SELECT id_parent
+			FROM localization
+			WHERE id = _id_parent
+			ORDER BY id, id_parent
+			LIMIT 1
+		);	
+		
+		SET _id_parent = (
+			SELECT id_parent
+			FROM localization
+			WHERE id_parent = _id_parent
+			ORDER BY id, id_parent
+			LIMIT 1
+		);
+
+		SELECT    CASE WHEN count(a.id) < 1 THEN -1 ELSE a.id END, a.id_parent
+		INTO      _id, _id_parent
+		FROM      localization a
+		WHERE     a.id_parent = _id AND a.id_user = _id_user OR a.id_parent = _id_parent
+		ORDER BY  a.id, a.id_parent
+		LIMIT 1;
+		
+		IF _id = -1 THEN	
+			LEAVE delete_all_child;
+    	END IF;
+	 END LOOP;   
+END
+
+---------------------------DZIAŁAJĄCA PRODCEDURA---------------------------------
+
+---------------------------ZAPYTANIA TESTOWE---------------------------------
+
+DELETE FROM localization;
+
+INSERT INTO `localization` (`id`, `id_user`, `id_parent`, `directory_name`) VALUES (1, 2, NULL, '1');
+INSERT INTO `localization` (`id`, `id_user`, `id_parent`, `directory_name`) VALUES (2, 2, 1, '2');
+INSERT INTO `localization` (`id`, `id_user`, `id_parent`, `directory_name`) VALUES (3, 2, 1, '3');
+INSERT INTO `localization` (`id`, `id_user`, `id_parent`, `directory_name`) VALUES (4, 2, 3, '22');
+INSERT INTO `localization` (`id`, `id_user`, `id_parent`, `directory_name`) VALUES (5, 2, 3, '23');
+INSERT INTO `localization` (`id`, `id_user`, `id_parent`, `directory_name`) VALUES (6, 2, 2, '232');
+INSERT INTO `localization` (`id`, `id_user`, `id_parent`, `directory_name`) VALUES (7, 2, 2, '233');
+INSERT INTO `localization` (`id`, `id_user`, `id_parent`, `directory_name`) VALUES (8, 2, 4, '33');
+INSERT INTO `localization` (`id`, `id_user`, `id_parent`, `directory_name`) VALUES (9, 2, 4, '34');
+INSERT INTO `localization` (`id`, `id_user`, `id_parent`, `directory_name`) VALUES (10, 2, 5, '333');
+INSERT INTO `localization` (`id`, `id_user`, `id_parent`, `directory_name`) VALUES (11, 2, 5, '334');
+
+SELECT * FROM localization
+
+SET @@GLOBAL.max_sp_recursion_depth = 255;
+SET @@session.max_sp_recursion_depth = 255; 
+
+CALL DeleteDirectories(1, 2);
+
+SELECT * FROM localization
+
+---------------------------ZAPYTANIA TESTOWE---------------------------------
