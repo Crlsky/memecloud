@@ -14,8 +14,12 @@ let addDirPopup = (dirName) => {
     });
 }
 
-let addMemePopup = (memeName) => {
-    $('#popupSpan').html('Meme <span class="namePopup">' + memeName + '</span> succesfully added');
+let addMemePopup = (memeName, errorMessage) => {
+    if (memeName === null) {
+        $('#popupSpan').html(errorMessage);
+    } else {
+        $('#popupSpan').html('Meme <span class="namePopup">' + memeName + '</span> succesfully added');
+    }
     $('.popupInfo').fadeIn("slow", function() {
         $('.popupInfo').show();
         setTimeout(hidePopup, 4000);

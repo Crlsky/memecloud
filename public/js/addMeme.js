@@ -7,7 +7,7 @@ document.getElementById('btnAddMeme').addEventListener('click', (e) => {
     e.preventDefault();
     let memeName = e.srcElement.parentNode.closest('.modal-content').childNodes[3].childNodes[1].childNodes[1].value;
     let memeFile = e.srcElement.parentNode.closest('.modal-content').childNodes[3].childNodes[3].childNodes[1].files[0];
-    console.log(memeFile);
+
     if (window.location.pathname == '/meme') {
         idDirectory = null;
     } else {
@@ -21,7 +21,13 @@ document.getElementById('btnAddMeme').addEventListener('click', (e) => {
         method: "POST",
         body: formData,
     })
-    .then(response => response.json())
+    .then(response => {
+        if (response.status == 200) {
+            return response.json();
+        } else {
+            addMemePopup(null, "Something went wrong while uploading image.");
+        }
+    })
     .then(data => {
         if (document.querySelector('.flexItemParentMemes').innerHTML == "") {
             let memeSpan = document.createElement('span');
@@ -36,10 +42,10 @@ document.getElementById('btnAddMeme').addEventListener('click', (e) => {
             addMemeDiv(data.id, data.url, data.name);
             addMemePopup(data.name);
         }
-    })
-    .catch(error => {
-        console.log(erorr);
     });
+
+    formData.delete('file');
+    formData.delete('id_directory');
 });
 
 let addMemeDiv = (id, url, name) => {
