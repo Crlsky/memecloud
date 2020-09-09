@@ -1,13 +1,51 @@
+.settingsDiv::-webkit-scrollbar {
+    display: none !important;
+}
+
 .settingsDiv {
+    width: 881px;
+    max-width:95%;
     height: 85%;
-    background-color: #212121;
+    background-color: #17252A;
+    overflow-y: auto;
 }
 
 .settingsHeader {
     width: 100%;
 }
 
-.themesSection ul {
-    font-size: 1rem;
-    list-style-type: none;
+.settingsDiv div a {
+    background-color: #3AAFA9 !important;
 }
+
+.sectionHeader {
+    background-color: #3AAFA9;
+}
+
+/* Themes settings css */
+.colorPaletteDiv, .backgroundImagesMainDiv {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill,minmax(200px,1fr)) !important;
+}
+
+.backgroundImageDiv {
+    height: 100px;
+    overflow: hidden;
+}
+
+.backgroundImageDiv img {
+    width: 100%;
+    height: 100%;
+}
+
+.backgroundImageAddDiv {
+    background-color: #3AAFA9;
+}
+
+@media (max-width: 464px) {
+    .colorPaletteDiv, .backgroundImagesMainDiv {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fill,minmax(170px,1fr)) !important;
+    }
+}
+/* END */

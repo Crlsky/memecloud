@@ -10292,7 +10292,7 @@ body {
   font-size: 14px;
   padding: .25rem;
   font-weight: 500;
-  background-color: #212121;
+  background-color: #17252A;
   box-shadow: 0 1px 1px rgba(0,0,0,0.15), 
               0 2px 2px rgba(0,0,0,0.15), 
               0 4px 4px rgba(0,0,0,0.15), 
@@ -10311,7 +10311,7 @@ body {
 
 .pathsTree a span {
   background-color: #fff;
-  color: #212121;
+  color: #17252A;
   padding: 0 .25rem;
 }
 
@@ -10321,11 +10321,11 @@ body {
 }
 
 .pathsTree a span svg {
-  color: #212121 !important;
+  color: #17252A !important;
 }
 
 .emptyDirectory div {
-  background-color: #212121;
+  background-color: #17252A;
   font-size: 20px;
   box-shadow: 0 1px 1px rgba(0,0,0,0.15), 
               0 2px 2px rgba(0,0,0,0.15), 
@@ -10461,16 +10461,11 @@ input[type=checkbox] {
 
 /* Style potrzebne do rozmazanego tła w razie potrzzeby można zakomentować i odkomentować background w "masthead" */
 .bgImage {
-  background: url("https://i.imgur.com/5Wpu5p1.png");
+  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("/assets/img/bg-kot.jpg");
   height: 100vh;
-  background-color: #32a632;
   overflow: hidden !important;
-  /* filter: blur(1.5px);
-  -webkit-filter: blur(1.5px); */
-  /* background-position: center;
-  background-repeat: no-repeat;
+  background-position: center;
   background-size: cover;
-  transform: scale(1.01); */
 }
 
 .siteContent, .siteContentLogin {
@@ -10564,7 +10559,7 @@ input[type=checkbox] {
 
 .pathItem {
   height: 45px;
-  background-color: #212121;
+  background-color: #17252A;
   box-shadow: 0 1px 1px rgba(0,0,0,0.15), 
               0 2px 2px rgba(0,0,0,0.15), 
               0 4px 4px rgba(0,0,0,0.15), 
@@ -10654,7 +10649,7 @@ input[type=checkbox] {
   width: 100%;
   padding: 10px 5px;
   float: left;
-  background-color: #212121;
+  background-color: #17252A;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -10721,7 +10716,7 @@ input[type=checkbox] {
   width: 80% !important;
   border-radius: 10px !important; 
   margin: 0 auto !important;
-  background-color: #212121 !important;
+  background-color: #17252A !important;
   color: #fff !important;
 }
 
@@ -10752,8 +10747,8 @@ input[type=checkbox] {
 }
 
 .modal-footer .btn-primary {
-  background-color: #32a632 !important;
-  border-color: #32a632 !important;
+  background-color: #3AAFA9 !important;
+  border-color: #3AAFA9 !important;
 }
 
 .close:focus {
@@ -10920,13 +10915,13 @@ input[type=checkbox] {
 
 .context-menu-list {
   padding: 0 !important;
-  background-color: #414141 !important;
-  border: solid 1px #414141 !important; 
+  background-color: #17252A !important;
+  border: solid 1px #17252A !important; 
   color: #fff;
 }
 
 .context-menu-list li {
-  background-color: #414141 !important;
+  background-color: #17252A !important;
   color: #fff !important;
 }
 
@@ -10967,7 +10962,7 @@ input[type=checkbox] {
 .popupInfo {
   display: none;
   position: absolute; 
-  background-color: #212121;
+  background-color: #17252A;
   left: 50px;
   bottom: 20px;
   font-weight: 500;
@@ -10978,7 +10973,7 @@ input[type=checkbox] {
 }
 
 .namePopup {
-  color: #32a632;
+  color: #3AAFA9;
 }
 
 .noMemeH1 {
