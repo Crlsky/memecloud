@@ -1,0 +1,36 @@
+{% extends 'settings/settingsHeader.html.twig' %}
+
+{% block settingsHeader %}
+    <h1 class="m-auto text-uppercase">{{ pageName }}</h1>
+{% endblock %}
+
+{% block settingsBody %}
+    <div class="singleSection w-100 mb-4">
+        <h5 class="text-light">Choose your colors:</h5>
+        <div class="colorPaletteDiv text-light text-center py-2">
+            {% for key,color in colorPalette %}
+                <div id="colorPalette_{{ key }}" class="mx-2 my-2 border border-dark rounded">
+                    <div class="w-50 h-100 float-left rounded-left py-4" style="background-color: {{ color.primary_color }};">{{ color.primary_color }}</div>
+                    <div class="w-50 h-100 float-left rounded-right py-4" style="background-color: {{ color.secondary_color }};">{{ color.secondary_color }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="singleSection w-100 mb-4">
+        <h5 class="text-light">Choose background image:</h5>
+        <div class="backgroundImagesMainDiv py-2">        
+            {% for key,image in backgroundImages %}
+                <div id="backgroundImage_{{ key }}" class="backgroundImageDiv mx-2 my-2 border border-dark text-center rounded">
+                    <img src="{{ image.image_src }}" class="backgroundImage rounded" />
+                </div>   
+            {% endfor %}
+            <div id="backgroundImageAdd" class="backgroundImageAddDiv d-flex align-items-center justify-content-center mx-2 my-2 border border-dark text-center rounded">
+                <i class="fas fa-cloud-upload-alt fa-4x"></i>
+            </div>  
+        </div>
+    </div>
+{% endblock %}
+
+{% block siteAddedJs %}
+    <script src="/js/settings/themesSettings.js"></script>
+{% endblock %}

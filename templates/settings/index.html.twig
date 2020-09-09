@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ pageName }} - {{ brand }}{% endblock %}
+{% block siteAddedCSS %}
+    <link rel="stylesheet" href="{{ asset('/css/settings.css') }}" />
+{% endblock %}
+
+{% block body %}
+    <div class="siteContent w-100 h-100 mx-auto text-center">
+        <div class="d-flex w-100 h-100 justify-content-center align-items-center">
+            <div class="settingsDiv w-50 rounded">
+                <div class="d-flex settingsHeader align-items-center py-2 px-2 border-bottom border-dark">
+                    <h2 class="m-0">{{ pageName|upper }}</h2>
+                </div>
+                <div class="settingsBody py-2 px-2">
+                    <div class="themesSection text-left">
+                        <div class="sectionHeader">
+                            <h6 class="text-light">Themes</h6>
+                        </div>
+                        <div class="sectionBody">
+                            <ul class="p-0 text-light">
+                                <li>Color mode:</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+{% endblock %}
+
+{% block siteAddedJs %}{% endblock %}

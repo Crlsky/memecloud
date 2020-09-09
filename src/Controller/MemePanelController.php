@@ -39,26 +39,16 @@ class MemePanelController extends AbstractController
         $parentId = $this->getDirectoryParent($slug);
         $checksum = $this->getMemeChecksum($parentId);
         $paths = $this->getPaths($parentId);
-        $goBackPath = $this->goBack($slug);
+
         $pageName = $this->getDirectoryPageName($slug);
         $pathsTree = $this->getPathsTree();
 
-        if (is_array($goBackPath)) {
-            foreach ($goBackPath as $path) {
-                $goBackPath = $path;
-            }
-            $mainPath = NULL;
-        } else {
-            $mainPath = 'main';
-        }
-
         return $this->render('meme_panel/index.html.twig', [
             'memes' => $checksum,
-            'mainPath' => $mainPath,
-            'goBackPath' => $goBackPath,
             'paths' => $paths,
             'pageName' => $pageName,
             'pathsTree' => $pathsTree,
+            'emptyDirMessage' => "This directory is empty. Add some memes :). Use right click to add new directory or upload new meme.",
             'brand' => 'MemeCloud',
         ]);
     }
@@ -151,39 +141,6 @@ class MemePanelController extends AbstractController
             $id[$key] = $data->getId();
         }
         return $id;
-    }
-
-    // get path to directory parent. // do usunięcia
-    private function goBack(string $slug) {
-        $localizationDb = $this->dbLocalizationClass();
-
-        $directoryId = $localizationDb->findBy(
-            ['id' => $slug]
-        );
-
-        foreach ($directoryId as $key => $data) {
-            if ($data->getIdParent() != NULL) {
-                $id[$key] = $data->getIdParent();
-            } else {
-                $id = NULL;
-            }   
-        }
-
-        if ($id == NULL) {
-            return "/meme";
-        } else {
-            $parentDirectoryName = $localizationDb->findBy([
-                'id' => $id
-            ]);
-
-            foreach ($parentDirectoryName as $key => $data) {
-                $directoryId[$key] = [
-                    'id' => $data->getId(),
-                    'name' => $data->getDirectoryName(),
-                ];
-            }
-            return $directoryId;
-        }
     }
 
     // get directory name to set page title

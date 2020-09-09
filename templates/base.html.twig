@@ -7,18 +7,19 @@
         <meta name="robots" content="noindex, nofollow" />
         {% block javascript %}
             <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-            <script src="/dist/jquery.contextMenu.js"></script>
+            <script src="{{ asset('/dist/jquery.contextMenu.js') }}"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.9.2/jquery.ui.position.js"></script>
             <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
-            <script type="text/javascript" language="javascript" src="/lytebox/lytebox.js"></script>
+            <script type="text/javascript" language="javascript" src="{{ asset('js/lytebox/lytebox.js') }}"></script>
         {% endblock %}
+        {% block siteAddedCSS %}{% endblock %}
         {% block stylesheets %}
-            <link rel="stylesheet" href="/css/styles.css" />
-            <link rel="stylesheet" href="/css/sidebar.css" />
+            <link rel="stylesheet" href="{{ asset('/css/styles.css') }}" />
+            <link rel="stylesheet" href="{{ asset('/css/sidebar.css') }}" />
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
             <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
             <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-            <link rel="stylesheet" href="/lytebox/lytebox.css" type="text/css" media="screen" />
+            <link rel="stylesheet" href="{{ asset('js/lytebox/lytebox.css') }}" type="text/css" media="screen" />
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.9.2/jquery.contextMenu.min.css">
         {% endblock %}
     </head>
@@ -58,7 +59,7 @@
                     </ul>    
                     <ul class="sidebarMenu m-0 p-0 pt-2 pb-2">    
                         <li class="nav-item sidebarItem">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ path('settings') }}">
                                 <span>
                                     <i class="fas fa-cog sidebarIco"></i>
                                 </span>
@@ -126,41 +127,41 @@
                     <a href="{{ path('app_login') }}" class="btn btnForward"><span>Sign in</span><i class="fas fa-arrow-right"></i></a>
                 {% endblock %}
             {% elseif app.request.get('_route') == 'meme_panel' %} 
-            <div class="pathsTreeMainDiv d-flex justify-content-start"> 
-                <div class="pathsTree rounded pl-2 pr-2 text-uppercase">
-                    <a href="{{ path('meme_panel') }}">
-                            {{ pathTreeName }}   
-                    </a>   
-                </div>
-            </div>        
-            {% elseif app.request.get('_route') == 'directory' %}       
-            <div class="pathsTreeMainDiv d-flex justify-content-start"> 
-                {% if pathsTree['main_path'] is defined %}
+                <div class="pathsTreeMainDiv d-flex justify-content-start"> 
                     <div class="pathsTree rounded pl-2 pr-2 text-uppercase">
                         <a href="{{ path('meme_panel') }}">
-                                {{ pathsTree['main_path'] }}    
+                                <i class="fas fa-home"></i> {{ pathTreeName }}   
                         </a>   
-                        <i class="fas fa-angle-right"></i>
-                        <a href="/meme/{{pathsTree['current_path_id']}}">
-                            <span class="rounded">{{ pathsTree['current_path_name'] }}</span>
-                        </a>
-                    </div>    
-                {% else %}
-                    <div class="pathsTree rounded pl-2 pr-2 text-uppercase">
-                        <a href="{{ path('meme_panel') }}">
-                                Main directory     
-                        </a>
-                        <i class="fas fa-angle-right"></i>
-                        <a href="/meme/{{pathsTree['previous_path_id']}}">
-                            {{ pathsTree['previous_path_name'] }}  
-                        </a> 
-                        <i class="fas fa-angle-right"></i>
-                        <a href="/meme/{{pathsTree['current_path_id']}}">
-                            <span class="rounded">{{ pathsTree['current_path_name'] }}</span>
-                        </a>
-                    </div>  
-                {% endif %}
-            </div>                     
+                    </div>
+                </div>        
+            {% elseif app.request.get('_route') == 'directory' %}       
+                <div class="pathsTreeMainDiv d-flex justify-content-start"> 
+                    {% if pathsTree['main_path'] is defined %}
+                        <div class="pathsTree rounded pl-2 pr-2 text-uppercase">
+                            <a href="{{ path('meme_panel') }}">
+                                    <i class="fas fa-home"></i> {{ pathsTree['main_path'] }}    
+                            </a>   
+                            <i class="fas fa-angle-right"></i>
+                            <a href="/meme/{{pathsTree['current_path_id']}}">
+                                <span class="rounded"><i class="fas fa-folder"></i> {{ pathsTree['current_path_name'] }}</span>
+                            </a>
+                        </div>    
+                    {% else %}
+                        <div class="pathsTree rounded pl-2 pr-2 text-uppercase">
+                            <a href="{{ path('meme_panel') }}">
+                                   <i class="fas fa-home"></i> Main directory     
+                            </a>
+                            <i class="fas fa-angle-right"></i>
+                            <a href="/meme/{{pathsTree['previous_path_id']}}">
+                                <i class="fas fa-folder"></i> {{ pathsTree['previous_path_name'] }}  
+                            </a> 
+                            <i class="fas fa-angle-right"></i>
+                            <a href="/meme/{{pathsTree['current_path_id']}}">
+                                <span class="rounded"><i class="fas fa-folder"></i> {{ pathsTree['current_path_name'] }}</span>
+                            </a>
+                        </div>  
+                    {% endif %}
+                </div>                     
             {% endif %}
             
             {# Główny content każdej strony #}
@@ -168,7 +169,7 @@
             
             {# Blok stopki #}
                 {% block footer %} 
-                    {% if app.request.get('_route') != 'meme_panel' and app.request.get('_route') != 'directory' %}
+                    {% if app.request.get('_route') == 'main' or app.request.get('_route') == 'app_login' or app.request.get('_route') == 'app_register' %}
                         <div class="siteFooter">
                             <a class="" href="https://www.facebook.com/"><i class="fab fa-facebook-square fa-2x"></i></a>
                             <a class="" href="https://www.instagram.com/"><i class="fab fa-instagram fa-2x"></i></a>
@@ -196,15 +197,16 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
         {% if app.request.get('_route') == 'meme_panel' or app.request.get('_route') == 'directory' %}
-            <script src="/js/addDirectory.js"></script>
-            <script src="/js/addMeme.js"></script>
-            <script src="/js/contextMenu.js"></script>
-            <script src="/js/rename.js"></script>
-            <script src="/js/popup.js"></script>   
+            <script src="{{ asset('/js/addDirectory.js') }}"></script>
+            <script src="{{ asset('/js/addMeme.js') }}"></script>
+            <script src="{{ asset('/js/contextMenu.js') }}"></script>
+            <script src="{{ asset('/js/rename.js') }}"></script>
+            <script src="{{ asset('/js/popup.js') }}"></script>   
         {% endif %}
         {% if app.request.get('_route') != 'main' %}
-            <script src="/js/sidebar.js"></script>
+            <script src="{{ asset('/js/sidebar.js') }}"></script>
         {% endif %}
     {% endblock %}
+    {% block siteAddedJs %}{% endblock %}
     </body>
 </html>

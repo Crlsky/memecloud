@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Settings - {{ pageName }} - {{ brand }}{% endblock %}
+{% block siteAddedCSS %}
+    <link rel="stylesheet" href="{{ asset('/css/settings.css') }}" />
+{% endblock %}
+
+{% block body %}
+    <div class="siteContent w-100 h-100 mx-auto text-center">
+        <div class="d-flex w-100 h-100 justify-content-center align-items-center">
+            <div class="settingsDiv rounded">
+                <div class="d-flex flex-row flex-wrap settingsHeader align-items-center py-2 px-2">
+                    <div class="flex-item mx-1">
+                        <a id="btnThemes" href="{{ path('settings_themes') }}" class="btn text-light"><i class="fas fa-desktop"></i><span>Themes</span></a>
+                    </div>
+                    <div class="flex-item mx-1">
+                        <a id="btnMemePanel" href="{{ path('settings_meme_panel') }}" class="btn text-light"><i class="far fa-images"></i><span>Meme panel</span></a>
+                    </div>
+                    <div class="flex-item mx-1">
+                        <a id="btnAccount" href="{{ path('settings_account') }}" class="btn text-light"><i class="fas fa-user"></i><span>Account</span></a>
+                    </div>
+                    <div class="flex-item mx-1">
+                        <a id="btnAccess" href="{{ path('settings_access') }}" class="btn text-light"><i class="fas fa-lock"></i><span>Access</span></a>
+                    </div>
+                    <div class="flex-item mx-1">
+                        <a id="btnMemecloudPro" href="{{ path('settings_pro') }}" class="btn text-light"><i class="fas fa-crown"></i><span>Memecloud Pro</span></a>
+                    </div>
+                </div>
+                <div class="sectionHeader py-1 px-1 mt-1">
+                    {% block settingsHeader %}{% endblock %}
+                </div>
+                <div class="sectionBody py-1 px-1">
+                    <div class="sectionBodyMainDiv text-left p-2 rounded">
+                        <div class="sectionBody px-2 py-1 rounded">
+                            {% block settingsBody %}{% endblock %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>    
+{% endblock %}
+
+{% block siteAddedJs %}{% endblock %}

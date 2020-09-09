@@ -5,17 +5,16 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ContactController extends AbstractController
+class SettingsController extends AbstractController
 {
     /**
-     * @Route("/contact", name="contact")
+     * @Route("/settings", name="settings")
      */
     public function index()
     {
-        return $this->render('contact/index.html.twig', [
+        return $this->render('settings/index.html.twig', [
+            'pageName' => 'Settings',
             'brand' => 'MemeCloud',
-            'pageName' => 'Contact',
-            'mail' => 'contact@memecloud.co',
         ]);
     }
 }

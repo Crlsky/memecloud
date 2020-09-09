@@ -35,6 +35,7 @@ document.getElementById('btnAddMeme').addEventListener('click', (e) => {
             memeSpan.classList.add("memeSectionTitle", "mb-3", "ml-2");
 
             document.querySelector('.flexItemParentMemes').before(memeSpan);
+            document.getElementById('emptyDirectoryId').remove();
 
             addMemeDiv(data.id, data.url, data.name);
             addMemePopup(data.name);
