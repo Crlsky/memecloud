@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 class ApiExtensionController extends AbstractController
 {
    /**
-     * @Route("/api/extension/get_dirs", name="api_extension_dirs")
+     * @Route("/api/extension/get_dirs", name="api_extension_dirs", methods={"POST"})
      */
     public function directoriesChilds(Request $request) {
         $clientName = $request->getContent();
@@ -46,7 +46,7 @@ class ApiExtensionController extends AbstractController
                 'checksum' => $memesChilds->getMemeChecksum(),
             ];
         }
-
+        
         $code = array(
             'code' => 200,
             'path' => (!empty($childs) ? $childs : ''),
@@ -57,12 +57,49 @@ class ApiExtensionController extends AbstractController
     }
 
     /**
-     * @Route("/api/extension/header", name="api_extension_child_dirs")
+     * @Route("/api/extension/header", name="api_extension_child_dirs", methods={"POST"})
      */
     public function returnHeader() {
         $response = new Response();
         $response->setStatusCode(200);
         return $response;
+    }
+
+    /**
+     * @Route("/api/extension/addmeme", name="api_extension_addmeme", methods={"POST"})
+     */
+    public function addMeme(Request $request) {
+        $data = $request->getContent();
+        $data = json_decode($data);
+
+        $content = file_get_contents($data->url);
+        
+        $memeChecksum = md5($content);
+        
+        $target = $this->getParameter('kernel.project_dir') . '/public/imgs/CRLS.' . $memeChecksum;
+
+        if(!file_exists($target . "jpeg") && !file_exists($target . "png") && !file_exists($target . "jpg")){
+            $fp = fopen($this->getParameter('kernel.project_dir') . "/public/imgs/CRLS_" . $memeChecksum . ".jpeg", "w");
+            $write = fwrite($fp, $content);
+            $close = fclose($fp);
+
+            if($write && $close){
+                $code = 200;
+                $log = 'added';
+            }else{
+                $code = 666;
+                $log = 'nie zapisało';
+            }
+        }else {
+            $code = 420;
+            $log = 'jest juz taki mem';
+        }
+
+        $response = array(
+            'code' => $code,
+            'log' => $log 
+        );
+        return new Response(json_encode($response));
     }
 
     // connecting do Localization Entity.

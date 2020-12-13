@@ -42,7 +42,13 @@ security:
                 target: main
             remember_me:
                 secret:   '%kernel.secret%'
-                lifetime: 2592000 # 30 days in seconds     
+                lifetime: 2592000 # 30 days in seconds
+                path: /
+                domain: ~
+                secure: true
+                name: REMEMBERME
+                remember_me_parameter: remember_me
+                always_remember_me: true  
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

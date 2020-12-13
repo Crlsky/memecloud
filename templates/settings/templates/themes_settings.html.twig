@@ -21,7 +21,7 @@
         <div class="backgroundImagesMainDiv py-2">        
             {% for key,image in backgroundImages %}
                 <div id="backgroundImage_{{ key }}" class="backgroundImageDiv mx-2 my-2 border border-dark text-center rounded">
-                    <img src="{{ image.image_src }}" class="backgroundImage rounded" />
+                    <img src="{{ image.image_src }}" class="backgroundImage rounded" data-bg-id="{{ key }}"/>
                 </div>   
             {% endfor %}
             <div id="backgroundImageAdd" class="backgroundImageAddDiv d-flex align-items-center justify-content-center mx-2 my-2 border border-dark text-center rounded">
@@ -32,5 +32,6 @@
 {% endblock %}
 
 {% block siteAddedJs %}
+    <script src="{{ asset('/js/popup.js') }}"></script>
     <script src="/js/settings/themesSettings.js"></script>
 {% endblock %}

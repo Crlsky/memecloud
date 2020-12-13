@@ -7,6 +7,7 @@ use App\Entity\Localization;
 use App\Entity\Memes;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use \Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -16,7 +17,9 @@ class MemePanelController extends AbstractController
      * @Route("/meme", name="meme_panel")
      */
     public function index() {
-        $this->access();
+        if (!$this->checkLogin()) {
+            return new RedirectResponse('/login');
+        }
 
         $paths = $this->getPaths();
         $checksum = $this->getMemeChecksum();
@@ -26,6 +29,7 @@ class MemePanelController extends AbstractController
             'paths' => $paths,
             'pageName' => 'Meme',
             'brand' => 'MemeCloud',
+            'emptyDirMessage' => "This directory is empty. Add some memes :). Use right click to add new directory or upload new meme.",
             'pathTreeName' => 'Main directory'
         ]);
     }
@@ -34,7 +38,9 @@ class MemePanelController extends AbstractController
      * @Route("/meme/{slug}", name="directory")
      */
     public function showDirectories(string $slug, Request $request) {
-        $this->access();
+        if (!$this->checkLogin()) {
+            return new RedirectResponse('/login');
+        }
 
         $parentId = $this->getDirectoryParent($slug);
         $checksum = $this->getMemeChecksum($parentId);
@@ -207,7 +213,7 @@ class MemePanelController extends AbstractController
             return $_SERVER['REQUEST_URI'];
         } else {
             preg_match('@\/meme\/([^<>]+$)@Usmi', $_SERVER['REQUEST_URI'], $directoryName);
-            return $directoryName[1];
+            return (int)$directoryName[1];
         }
     }
     
@@ -221,8 +227,10 @@ class MemePanelController extends AbstractController
         return $this->getDoctrine()->getRepository(Memes::class);
     }
 
-    // access if user is logged in.
-    private function access() {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+    private function checkLogin() {
+        $securityContext = $this->container->get('security.authorization_checker');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return true;
+        }
     }
 }

@@ -27,7 +27,7 @@ let addMemePopup = (memeName, errorMessage) => {
 }
 
 let popup = (message) => {
-    document.getElementById('popupSpan').innerHTML = message;
+    $('#popupSpan').html(message);
 
     $('.popupInfo').fadeIn("slow", function() {
         $('.popupInfo').show();

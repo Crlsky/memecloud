@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ColorPalette;
 use App\Entity\BackgroundImage;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -14,6 +15,10 @@ class SettingsController extends AbstractController
      */
     public function themesSettings()
     {   
+        if (!$this->checkLogin()) {
+            return new RedirectResponse('/login');
+        }
+
         $colorPaletteDb = $this->dbColorPaletteClass();
         $backgroundImageDb = $this->dbBackgroundImageClass();
         $colorPaletteTable = array();
@@ -44,6 +49,10 @@ class SettingsController extends AbstractController
      */
     public function memePanelSettings()
     {
+        if (!$this->checkLogin()) {
+            return new RedirectResponse('/login');
+        }
+
         return $this->render('settings/templates/meme_panel_settings.html.twig', [
             'pageName' => 'Settings',
             'brand' => 'MemeCloud',
@@ -55,6 +64,10 @@ class SettingsController extends AbstractController
      */
     public function accountSettings()
     {
+        if (!$this->checkLogin()) {
+            return new RedirectResponse('/login');
+        }
+
         return $this->render('settings/templates/account_settings.html.twig', [
             'pageName' => 'Settings',
             'brand' => 'MemeCloud',
@@ -66,6 +79,10 @@ class SettingsController extends AbstractController
      */
     public function accessSettings()
     {
+        if (!$this->checkLogin()) {
+            return new RedirectResponse('/login');
+        }
+
         return $this->render('settings/templates/access_settings.html.twig', [
             'pageName' => 'Settings',
             'brand' => 'MemeCloud',
@@ -77,6 +94,10 @@ class SettingsController extends AbstractController
      */
     public function memecloudProSettings()
     {
+        if (!$this->checkLogin()) {
+            return new RedirectResponse('/login');
+        }
+
         return $this->render('settings/templates/pro_settings.html.twig', [
             'pageName' => 'Settings',
             'brand' => 'MemeCloud',
@@ -89,5 +110,12 @@ class SettingsController extends AbstractController
 
     private function dbBackgroundImageClass() {
         return $this->getDoctrine()->getRepository(BackgroundImage::class);
+    }
+
+    private function checkLogin() {
+        $securityContext = $this->container->get('security.authorization_checker');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return true;
+        }
     }
 }

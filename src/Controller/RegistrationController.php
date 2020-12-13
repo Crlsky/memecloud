@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\UserSettings;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use App\Security\LoginFormAuthenticator;
@@ -26,7 +27,7 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator): Response
     {
         $securityContext = $this->container->get('security.authorization_checker');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return new RedirectResponse('/meme');
         }
 
@@ -48,6 +49,16 @@ class RegistrationController extends AbstractController
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
+                $entityManager->flush();
+                
+                $userId = $user->getId();
+
+                $userSettings = new UserSettings();
+                $userSettings->setIdUser($userId);
+                $userSettings->setThemeColor(1);
+                $userSettings->setBgImage(1);
+                $userSettings->setShowDirectories(1);
+                $entityManager->persist($userSettings);
                 $entityManager->flush();
 
                 return $guardHandler->authenticateUserAndHandleSuccess(

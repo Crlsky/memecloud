@@ -94,9 +94,9 @@
                             <li><a href="#">API</a></li>
                         </ul>   
                     </div>
-                    <div class="sidebarCredentials">
+                    {# <div class="sidebarCredentials">
                         <span class="rounded pt-1 pb-1 pl-2 pr-2">Created by <a class="githubName" href="https://github.com/sqbany122">Sqbany122</a> & <a class="githubName" href="https://github.com/Crlsky">Crlsky</a></span>
-                    </div>
+                    </div> #}
                     <div class="sidebarSocial">
                         <a class="" href="https://www.facebook.com/"><i class="fab fa-facebook-square fa-2x"></i></a>
                         <a class="" href="https://www.instagram.com/"><i class="fab fa-instagram fa-2x"></i></a>
@@ -111,9 +111,9 @@
             {% endif %}
         {% endif %}    
     {% endblock %}
-
+    
     <header class="masthead">
-        <div class="bgImage"></div> 
+        <div class="bgImage" style="background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('{{ background_image.getBackgroundImg }}');"></div> 
         <div class="container d-flex h-100 align-items-center">         
             {# Nawigacja dla podstron logowania i rejestracji #}
             {% if app.request.get('_route') == 'app_login' %}
@@ -134,7 +134,7 @@
                         </a>   
                     </div>
                 </div>        
-            {% elseif app.request.get('_route') == 'directory' %}       
+            {% elseif app.request.get('_route') == 'directory' %}      
                 <div class="pathsTreeMainDiv d-flex justify-content-start"> 
                     {% if pathsTree['main_path'] is defined %}
                         <div class="pathsTree rounded pl-2 pr-2 text-uppercase">
@@ -176,9 +176,9 @@
                             <a class="" href="#"><i class="fas fa-plus-square fa-2x"></i></a>
                             <a class="" href="https://www.paypal.com/paypalme/wiadro50zl"><i class="fab fa-paypal fa-2x"></i></a>
                             <a class="" href="{{ path('contact') }}"><i class="fas fa-envelope-square fa-2x"></i></a>   
-                            <div class="credentials mt-1">
+                            {# <div class="credentials mt-1">
                                 <span class="rounded pt-1 pb-1 pl-2 pr-2">Created by Sqbany122 & Crlsky</span>
-                            </div>
+                            </div> #}
                         </div>
                     {% endif %}     
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and app.request.get('_route') != 'main' %}
@@ -190,7 +190,7 @@
         </div>
     </header>
     <div id="overlay" class="overlay"></div>
-    {% if app.request.get('_route') == 'meme_panel' or app.request.get('_route') == 'directory' %}
+    {% if app.request.get('_route') != 'main' %}
         {{ block("modal", "modal.html.twig") }}
     {% endif %}
     {% block javascripts %}

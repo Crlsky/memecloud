@@ -10357,7 +10357,7 @@ body {
   box-shadow: none !important;
   font-size: 1.5rem !important;
   padding-left: 15px !important;
-  background-color: #000 !important;
+  background-color: #17252A !important;
 }
 
 .btn-login {
@@ -10365,7 +10365,7 @@ body {
   font-weight: 500 !important;
   box-shadow: none !important;
   font-size: 1.5rem !important;
-  background-color: #000 !important;
+  background-color: #17252A !important;
 }
 
 .loginInput {
@@ -10373,7 +10373,7 @@ body {
   color: #fff !important;
   font-size: 24px !important;
   text-align: center !important;
-  background: #000 !important;
+  background-color: #17252A !important;
   opacity: 0.5 !important;
   box-shadow: none !important;
   border: solid 2px #fff !important;
@@ -10392,7 +10392,7 @@ body {
   color: #fff !important;
   font-size: 24px !important;
   text-align: center !important;
-  background: #000 !important;
+  background-color: #17252A !important;
   opacity: 0.5 !important;
   box-shadow: none !important;
   border: solid 2px #fff !important;
@@ -10461,7 +10461,9 @@ input[type=checkbox] {
 
 /* Style potrzebne do rozmazanego tła w razie potrzzeby można zakomentować i odkomentować background w "masthead" */
 .bgImage {
-  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("/assets/img/bg-kot.jpg");
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
   height: 100vh;
   overflow: hidden !important;
   background-position: center;
@@ -10909,7 +10911,7 @@ input[type=checkbox] {
 }
 
 .credentials span {
-  background-color: #000;
+  background-color: #17252A;
   font-weight: 500;
 }
 
