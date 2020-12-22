@@ -73,32 +73,55 @@ class ApiExtensionController extends AbstractController
         $data = json_decode($data);
 
         $content = file_get_contents($data->url);
-        
         $memeChecksum = md5($content);
+        $name = $data->name;
         
-        $target = $this->getParameter('kernel.project_dir') . '/public/imgs/CRLS.' . $memeChecksum;
+        $target = $this->getParameter('kernel.project_dir') . '/public/imgs/' . $memeChecksum . '.jpeg';
 
-        if(!file_exists($target . "jpeg") && !file_exists($target . "png") && !file_exists($target . "jpg")){
-            $fp = fopen($this->getParameter('kernel.project_dir') . "/public/imgs/CRLS_" . $memeChecksum . ".jpeg", "w");
+        if(!file_exists($target)) {
+            $fp = fopen($this->getParameter('kernel.project_dir') . "/public/imgs/" . $memeChecksum . ".jpeg", "w");
             $write = fwrite($fp, $content);
             $close = fclose($fp);
-
-            if($write && $close){
-                $code = 200;
-                $log = 'added';
-            }else{
-                $code = 666;
-                $log = 'nie zapisało';
-            }
-        }else {
-            $code = 420;
-            $log = 'jest juz taki mem';
+            
+            if($write && $close)
+                $response = array(
+                    'code' => 200,
+                    'log' => 'added_new' 
+                );
         }
+                
 
-        $response = array(
-            'code' => $code,
-            'log' => $log 
-        );
+        // does user have this meme already?
+        $memesDb = $this->dbMemesClass();
+            
+        $isUserHaveMeme = $memesDb->findBy([
+            'meme_checksum' => $memeChecksum,
+            'id_user' => $this->getUser()->getId()
+        ]);
+
+        if($isUserHaveMeme)
+            $response = array(
+                'code' => 200,
+                'log' => 'u_have_meme_already' 
+            );
+        else{
+            $meme = new Memes();
+
+            $meme->setMemeName($name);
+            $meme->setMemeChecksum($memeChecksum);
+            $meme->setIdDirectory(null);
+            $meme->setIdUser($this->getUser()->getId());
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($meme);
+            $entityManager->flush();
+
+            $response = array(
+                'code' => 200,
+                'log' => 'added_new' 
+            );
+        }
+        
         return new Response(json_encode($response));
     }
 
