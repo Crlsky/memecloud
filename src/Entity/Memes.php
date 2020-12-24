@@ -37,6 +37,11 @@ class Memes
      */
     private $id_user;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $doubled;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,18 @@ class Memes
     public function setIdUser(int $id_user): self
     {
         $this->id_user = $id_user;
+
+        return $this;
+    }
+
+    public function getDoubled(): ?int
+    {
+        return $this->doubled;
+    }
+
+    public function setDoubled(int $doubled): self
+    {
+        $this->doubled = $doubled;
 
         return $this;
     }

@@ -69,6 +69,9 @@ class ApiExtensionController extends AbstractController
      * @Route("/api/extension/addmeme", name="api_extension_addmeme", methods={"POST"})
      */
     public function addMeme(Request $request) {
+        $memesDb = $this->dbMemesClass();
+        $entityManager = $this->getDoctrine()->getManager();
+
         $data = $request->getContent();
         $data = json_decode($data);
 
@@ -88,11 +91,20 @@ class ApiExtensionController extends AbstractController
                     'code' => 200,
                     'log' => 'added_new' 
                 );
+        } else {
+            $dbMeme = $memesDb->findOneBy([
+                'meme_checksum' => $memeChecksum,
+            ]);
+            
+            $upd = $dbMeme->getDoubled()+1;
+            $dbMeme->setDoubled($upd);
+            
+            $entityManager->persist($dbMeme);
         }
                 
 
         // does user have this meme already?
-        $memesDb = $this->dbMemesClass();
+        
             
         $isUserHaveMeme = $memesDb->findBy([
             'meme_checksum' => $memeChecksum,
@@ -111,16 +123,16 @@ class ApiExtensionController extends AbstractController
             $meme->setMemeChecksum($memeChecksum);
             $meme->setIdDirectory(null);
             $meme->setIdUser($this->getUser()->getId());
+            $meme->setDoubled(0);
 
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($meme);
-            $entityManager->flush();
 
             $response = array(
                 'code' => 200,
                 'log' => 'added_new' 
             );
         }
+        $entityManager->flush();
         
         return new Response(json_encode($response));
     }
