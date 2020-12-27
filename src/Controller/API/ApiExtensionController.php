@@ -91,17 +91,7 @@ class ApiExtensionController extends AbstractController
                     'code' => 200,
                     'log' => 'added_new' 
                 );
-        } else {
-            $dbMeme = $memesDb->findOneBy([
-                'meme_checksum' => $memeChecksum,
-            ]);
-            
-            $upd = $dbMeme->getDoubled()+1;
-            $dbMeme->setDoubled($upd);
-            
-            $entityManager->persist($dbMeme);
-        }
-                
+        }       
 
         // does user have this meme already?
         
@@ -110,13 +100,12 @@ class ApiExtensionController extends AbstractController
             'meme_checksum' => $memeChecksum,
             'id_user' => $this->getUser()->getId()
         ]);
+        $response = array(
+            'code' => 200,
+            'log' => 'u_have_meme_already' 
+        );
 
-        if($isUserHaveMeme)
-            $response = array(
-                'code' => 200,
-                'log' => 'u_have_meme_already' 
-            );
-        else{
+        if(!$isUserHaveMeme) {
             $meme = new Memes();
 
             $meme->setMemeName($name);
