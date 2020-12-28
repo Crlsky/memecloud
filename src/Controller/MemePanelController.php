@@ -23,8 +23,10 @@ class MemePanelController extends AbstractController
 
         $paths = $this->getPaths();
         $checksum = $this->getMemeChecksum();
+        $occupiedSpace = $this->getOccupiedSpace();
 
         return $this->render('meme_panel/index.html.twig', [
+            'space' => $occupiedSpace,
             'memes' => $checksum,
             'paths' => $paths,
             'pageName' => 'Meme',
@@ -215,6 +217,30 @@ class MemePanelController extends AbstractController
             preg_match('@\/meme\/([^<>]+$)@Usmi', $_SERVER['REQUEST_URI'], $directoryName);
             return (int)$directoryName[1];
         }
+    }
+
+    /* get occupated space by size(in KB) from memes table 1GB limit 
+    /   1000000(KB) - 100%
+    /      SUM (KB) -   x%
+    /
+    /   x = SUM/10000
+    */  
+    private function getOccupiedSpace() {
+        $entityManager = $this->getDoctrine()->getManager();        
+
+        $sql = "
+            SELECT SUM(a.size) 
+            FROM memes a
+            WHERE a.id_user = :user_id 
+        ";
+
+        $occupiedSpace = $entityManager->getConnection()->prepare($sql);
+        $occupiedSpace->bindValue('user_id', $this->getUser()->getId());
+        $occupiedSpace->execute();
+
+        $occupiedSpace = intval($occupiedSpace->fetchAll()[0]["SUM(a.size)"]);
+
+        return $occupiedSpace*0.0001;
     }
     
     // connecting do Localization Entity.

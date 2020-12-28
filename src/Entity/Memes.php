@@ -40,7 +40,7 @@ class Memes
     /**
      * @ORM\Column(type="integer")
      */
-    private $doubled;
+    private $size;
 
     public function getId(): ?int
     {
@@ -95,14 +95,14 @@ class Memes
         return $this;
     }
 
-    public function getDoubled(): ?int
+    public function getSize(): ?int
     {
-        return $this->doubled;
+        return $this->size;
     }
 
-    public function setDoubled(int $doubled): self
+    public function setSize(int $size): self
     {
-        $this->doubled = $doubled;
+        $this->size = $size;
 
         return $this;
     }

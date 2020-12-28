@@ -76,6 +76,7 @@ class ApiExtensionController extends AbstractController
         $data = json_decode($data);
 
         $content = file_get_contents($data->url);
+        $size = intval(strlen($content)/1024);
         $memeChecksum = md5($content);
         $name = $data->name;
         
@@ -94,8 +95,6 @@ class ApiExtensionController extends AbstractController
         }       
 
         // does user have this meme already?
-        
-            
         $isUserHaveMeme = $memesDb->findBy([
             'meme_checksum' => $memeChecksum,
             'id_user' => $this->getUser()->getId()
@@ -112,8 +111,7 @@ class ApiExtensionController extends AbstractController
             $meme->setMemeChecksum($memeChecksum);
             $meme->setIdDirectory(null);
             $meme->setIdUser($this->getUser()->getId());
-            $meme->setDoubled(0);
-
+            $meme->setSize($size);
             $entityManager->persist($meme);
 
             $response = array(
@@ -134,5 +132,24 @@ class ApiExtensionController extends AbstractController
     // connecting do Memes Entity.
     private function dbMemesClass() {
         return $this->getDoctrine()->getRepository(Memes::class);
-    }   
+    }
+
+    private function compressImage($sourceUrl, $destinationUrl, $quality) {
+        $imageInfo = getimagesize($sourceUrl);
+
+        if ($imageInfo['mime'] == 'image/jpeg') {
+            $image = imagecreatefromjpeg($sourceUrl);
+        }
+        elseif ($imageInfo['mime'] == 'image/gif') {
+            $image = imagecreatefromgif($sourceUrl);
+        }
+        elseif ($imageInfo['mime'] == 'image/png') {
+            $image = imagecreatefrompng($sourceUrl);
+        }
+
+        $destinationUrl = preg_replace('@\.(png|jpg|gif|bmp)@Usmi', '.jpeg', $destinationUrl);
+
+        imagejpeg($image, $destinationUrl, $quality);
+        imagedestroy($image);
+    }
 }

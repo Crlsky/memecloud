@@ -31,7 +31,19 @@
             {% else %}
                 <span class="memeSectionTitle mb-3 ml-2"><span>Memes</span></span>
                 <div class="flexItemParentMemes flexItemsParent justify-content-start flex-wrap">
-                    {% for meme in memes %}
+                    {% for key,meme in memes %}
+                        {% if key is divisible by(5) and key != 0 %}
+                            <div class="pathItemMeme rounded flex-item ml-2 mr-2 mb-3">
+                            <div class="pathItemMemeDiv rounded-top w-100">
+                                <a href="ads.google.com/google/ads" rel="lytebox">
+                                    <img class="singleMemeImg rounded-top" rel="lytebox" src="https://i.ytimg.com/vi/DXjkHsu6_so/maxresdefault.jpg" />
+                                </a>    
+                            </div>    
+                                <div class="directoryMemeNameDiv rounded-bottom">
+                                    <span data-meme-id="">ADD</span>
+                                </div>
+                            </div>
+                        {% endif %}
                         <div class="pathItemMeme rounded flex-item ml-2 mr-2 mb-3" data-meme-id="{{ meme[0] }}">
                         <div class="pathItemMemeDiv rounded-top w-100">
                             <a href="../imgs/{{ meme[1] }}" rel="lytebox">
