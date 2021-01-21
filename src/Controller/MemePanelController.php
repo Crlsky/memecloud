@@ -46,6 +46,7 @@ class MemePanelController extends AbstractController
 
         $parentId = $this->getDirectoryParent($slug);
         $checksum = $this->getMemeChecksum($parentId);
+        $occupiedSpace = $this->getOccupiedSpace();
         $paths = $this->getPaths($parentId);
 
         $pageName = $this->getDirectoryPageName($slug);
@@ -53,6 +54,7 @@ class MemePanelController extends AbstractController
 
         return $this->render('meme_panel/index.html.twig', [
             'memes' => $checksum,
+            'space' => $occupiedSpace,
             'paths' => $paths,
             'pageName' => $pageName,
             'pathsTree' => $pathsTree,
@@ -225,7 +227,7 @@ class MemePanelController extends AbstractController
     /
     /   x = SUM/10000
     */  
-    private function getOccupiedSpace() {
+    public function getOccupiedSpace() {
         $entityManager = $this->getDoctrine()->getManager();        
 
         $sql = "

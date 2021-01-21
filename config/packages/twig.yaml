@@ -2,3 +2,4 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     globals:
         background_image: '@App\Controller\GlobalController'
+        occupatedSpace: '@App\Controller\MemePanelController'

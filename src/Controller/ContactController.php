@@ -12,6 +12,7 @@ class ContactController extends AbstractController
      */
     public function index()
     {
+
         return $this->render('contact/index.html.twig', [
             'brand' => 'MemeCloud',
             'pageName' => 'Contact',

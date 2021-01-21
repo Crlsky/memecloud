@@ -66,9 +66,10 @@ class DirectoriesController extends AbstractController
      * @Route("/meme/add", name="memes_add")
      */
     public function addMeme(Request $request) {
-
+        
         $memeInfoToFetch = array();
         $memeChecksum = basename(md5_file($_FILES['file']['tmp_name']));
+        $size = ceil($_FILES['file']['size']/1024);
         $imageInfo = getimagesize($_FILES['file']['tmp_name']);
         $imageExtension = image_type_to_extension($imageInfo[2]);
 
@@ -89,6 +90,7 @@ class DirectoriesController extends AbstractController
             $meme->setMemeChecksum($memeChecksum);
             $meme->setIdDirectory($_POST['id_directory']);
             $meme->setIdUser($this->getUser()->getId());
+            $meme->setSize($size);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($meme);

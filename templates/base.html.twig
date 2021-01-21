@@ -85,6 +85,12 @@
                             </a>
                         </li>
                     </ul>
+                    <div class="progress-bar-main-box">
+                        <span class="progress-bar-title">Disk usage (max 1GB):</span>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: {{ occupatedSpace.getOccupiedSpace }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><span>{{ occupatedSpace.getOccupiedSpace }}%</span></div>    
+                        </div>
+                    </div>
                     <div class="sidebarInfoLinks">
                         <ul class="sidebarInfoLinkList p-0 m-0">
                             <li><a href="#">Help</a></li>
@@ -93,13 +99,10 @@
                             <li><a href="#">Rankings</a></li>
                             <li><a href="#">API</a></li>
                         </ul>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{space}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{space}}%</div>
-                        </div>
                     </div>
-                    {# <div class="sidebarCredentials">
+                    <div class="sidebarCredentials">
                         <span class="rounded pt-1 pb-1 pl-2 pr-2">Created by <a class="githubName" href="https://github.com/sqbany122">Sqbany122</a> & <a class="githubName" href="https://github.com/Crlsky">Crlsky</a></span>
-                    </div> #}
+                    </div>
                     <div class="sidebarSocial">
                         <a class="" href="https://www.facebook.com/"><i class="fab fa-facebook-square fa-2x"></i></a>
                         <a class="" href="https://www.instagram.com/"><i class="fab fa-instagram fa-2x"></i></a>
@@ -179,9 +182,9 @@
                             <a class="" href="#"><i class="fas fa-plus-square fa-2x"></i></a>
                             <a class="" href="https://www.paypal.com/paypalme/wiadro50zl"><i class="fab fa-paypal fa-2x"></i></a>
                             <a class="" href="{{ path('contact') }}"><i class="fas fa-envelope-square fa-2x"></i></a>   
-                            {# <div class="credentials mt-1">
+                            <div class="credentials mt-1">
                                 <span class="rounded pt-1 pb-1 pl-2 pr-2">Created by Sqbany122 & Crlsky</span>
-                            </div> #}
+                            </div>
                         </div>
                     {% endif %}     
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and app.request.get('_route') != 'main' %}
