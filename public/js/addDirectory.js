@@ -52,13 +52,17 @@ let addNewDirectory = (id, dirName) => {
 
         // makeing a dir header span
         let dirSpan = document.createElement('span');
-        dirSpan.append("Directories");
+        if (document.querySelector(".memeSectionTitleDir") === null) { 
+            dirSpan.append("Directories");
+        }
         dirSpan.classList.add("memeSectionTitleDir", "mb-3", "ml-2");
 
         document.querySelector('.flexItemParentPaths').before(dirSpan);
         document.querySelector('.flexItemParentPaths').classList.add('mb-5');
 
-        document.getElementById('emptyDirectoryId').remove();
+        if (document.getElementById('emptyDirectoryId') !== null) {
+            document.getElementById('emptyDirectoryId').remove();
+        }
 
         $('.flexItemParentPaths')
         .append('<div class="pathItemsContext pathItem rounded flex-item ml-2 mr-2 mb-3" data-path-id="'+id+'">'
