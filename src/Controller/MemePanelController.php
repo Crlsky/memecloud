@@ -222,8 +222,8 @@ class MemePanelController extends AbstractController
     }
 
     /* get occupated space by size(in KB) from memes table 1GB limit 
-    /   1000000(KB) - 100%
-    /      SUM (KB) -   x%
+    /   getUserPlanSpace(MB)    - 100%
+    /   SUM (KB)                -   x%
     /
     /   x = SUM/10000
     */  
@@ -242,9 +242,28 @@ class MemePanelController extends AbstractController
 
         $occupiedSpace = intval($occupiedSpace->fetchAll()[0]["SUM(a.size)"]);
 
-        return $occupiedSpace*0.0001;
+        return $occupiedSpace/(getUserPlanSpace()*1000);
     }
-    
+
+    public function getUserPlanSpace() {
+        $entityManager = $this->getDoctrine()->getManager();  
+
+        $sql = "
+            SELECT a.disk_space
+            FROM account_plan a
+            LEFT JOIN user_settings b ON b.id_account_plan_id = a.id
+            WHERE b.id_user = :user_id
+        ";
+        
+        $planSpace = $entityManager->getConnection()->prepare($sql);
+        $planSpace->bindValue('user_id', $this->getUser()->getId());
+        $planSpace->execute();
+
+        $planSpace = intval($planSpace->$occupiedSpace->fetchAll()[0]['disks_space']);
+
+        return $planSpace*1000;
+    }
+
     // connecting do Localization Entity.
     private function dbLocalizationClass() {
         return $this->getDoctrine()->getRepository(Localization::class);
@@ -253,6 +272,11 @@ class MemePanelController extends AbstractController
     // connecting do Memes Entity.
     private function dbMemesClass() {
         return $this->getDoctrine()->getRepository(Memes::class);
+    }
+
+    // connecting UserSetting Entity.
+    private function dbUserSettingClass() {
+        return $this->getDoctrine()->getRepository(UserSetting::class);
     }
 
     private function checkLogin() {

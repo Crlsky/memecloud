@@ -31,6 +31,11 @@ class UserSettings
      */
     private $show_directories;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $id_account_plan;
+
     public function setIdUser(int $id_user): self
     {
         $this->id_user = $id_user;
@@ -70,6 +75,18 @@ class UserSettings
     public function setShowDirectories(int $show_directories): self
     {
         $this->show_directories = $show_directories;
+
+        return $this;
+    }
+
+    public function getIdAccountPlan(): ?int
+    {
+        return $this->id_account_plan;
+    }
+
+    public function setIdAccountPlan(?int $id_account_plan): self
+    {
+        $this->id_account_plan = $id_account_plan;
 
         return $this;
     }

@@ -6,7 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "composer/package-versions-deprecated": "^1.10",
-        "doctrine/doctrine-bundle": "^2.1",
+        "doctrine/doctrine-bundle": "com2.1.0",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
         "lcobucci/jwt": "^3.3",
