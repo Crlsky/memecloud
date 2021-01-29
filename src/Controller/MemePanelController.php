@@ -221,12 +221,6 @@ class MemePanelController extends AbstractController
         }
     }
 
-    /* get occupated space by size(in KB) from memes table 1GB limit 
-    /   getUserPlanSpace(MB)    - 100%
-    /   SUM (KB)                -   x%
-    /
-    /   x = SUM/10000
-    */  
     public function getOccupiedSpace() {
         $entityManager = $this->getDoctrine()->getManager();        
 
@@ -242,7 +236,7 @@ class MemePanelController extends AbstractController
 
         $occupiedSpace = intval($occupiedSpace->fetchAll()[0]["SUM(a.size)"]);
 
-        return $occupiedSpace/(getUserPlanSpace()*1000);
+        return $occupiedSpace;
     }
 
     public function getUserPlanSpace() {
@@ -251,7 +245,7 @@ class MemePanelController extends AbstractController
         $sql = "
             SELECT a.disk_space
             FROM account_plan a
-            LEFT JOIN user_settings b ON b.id_account_plan_id = a.id
+            LEFT JOIN user_settings b ON b.id_account_plan = a.id
             WHERE b.id_user = :user_id
         ";
         
@@ -259,9 +253,19 @@ class MemePanelController extends AbstractController
         $planSpace->bindValue('user_id', $this->getUser()->getId());
         $planSpace->execute();
 
-        $planSpace = intval($planSpace->$occupiedSpace->fetchAll()[0]['disks_space']);
+        $planSpace = floatval($planSpace->fetchAll()[0]['disk_space']);
 
-        return $planSpace*1000;
+        return $planSpace*1000000;
+    }
+
+    public function getOccupiedSpacePercents() {
+        $occupiedSpacePercent = ($this->getOccupiedSpace()*100) / $this->getUserPlanSpace();
+
+        return $occupiedSpacePercent;
+    }
+
+    public function getFreeSpaceByPlan() {
+        return $this->getUserPlanSpace()-$this->getOccupiedSpace();
     }
 
     // connecting do Localization Entity.

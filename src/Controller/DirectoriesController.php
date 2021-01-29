@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use \Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Controller\MemePanelController;
 
 class DirectoriesController extends AbstractController
 {
@@ -66,7 +67,8 @@ class DirectoriesController extends AbstractController
      * @Route("/meme/add", name="memes_add")
      */
     public function addMeme(Request $request) {
-        
+        $memePanel = new MemePanelController;
+
         $memeInfoToFetch = array();
         $memeChecksum = basename(md5_file($_FILES['file']['tmp_name']));
         $size = ceil($_FILES['file']['size']/1024);
