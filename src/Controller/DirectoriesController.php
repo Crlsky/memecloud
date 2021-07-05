@@ -224,6 +224,50 @@ class DirectoriesController extends AbstractController
     }
 
     /**
+     * @Route("/move/meme", name="move_meme")
+     */
+    public function moveMeme(Request $request) {
+        $clientName = $request->getContent();
+        $decodedJson = json_decode($clientName);
+
+        if (isset($decodedJson->moveMeme) && $decodedJson->moveMeme === true) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $memeDb = $this->dbMemesClass();
+
+            $meme = $memeDb->findBy([
+                'id' => $decodedJson->id_meme,
+                'id_user' => $this->getUser()->getId(),
+            ]);
+
+            foreach ($meme as $memeName) {
+                $movedMeme = $memeName;
+                $memeNameInfo = $memeName->getMemeName();
+            }
+
+            $movedMeme->setIdDirectory($decodedJson->id_directory);
+            $entityManager->flush();
+
+            $localizationDb = $this->dbLocalizationClass();
+            
+            $directory = $localizationDb->findBy([
+                'id' => $decodedJson->id_directory,
+                'id_user' => $this->getUser()->getId()
+            ]);
+
+            foreach ($directory as $directoryInfo) {
+                $directoryNameInfo = $directoryInfo->getDirectoryName();
+            }
+
+            $moveInfo = [
+                'meme_name' => $memeNameInfo,
+                'directory_name' => $directoryNameInfo
+            ];
+
+            return new JsonResponse($moveInfo);
+        }
+    }
+
+    /**
      * @Route("/delete/dir", name="delete_dir")
      */
     public function deleteDirectory(Request $request) {

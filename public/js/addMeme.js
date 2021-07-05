@@ -32,7 +32,7 @@ document.getElementById('btnAddMeme').addEventListener('click', (e) => {
         if (document.querySelector('.flexItemParentMemes').innerHTML == "") {
             let memeSpan = document.createElement('span');
             memeSpan.append("Memes");
-            memeSpan.classList.add("memeSectionTitle", "mb-3", "ml-2");
+            memeSpan.classList.add("memeSectionTitle", "mb-3");
 
             if (document.querySelector(".memeSectionTitle") === null) {
                 document.querySelector('.flexItemParentMemes').before(memeSpan);
@@ -56,11 +56,9 @@ document.getElementById('btnAddMeme').addEventListener('click', (e) => {
 
 let addMemeDiv = (id, url, name) => {
     $('.flexItemParentMemes')
-    .append('<div class="pathItemMeme rounded flex-item ml-2 mr-2 mb-3" data-meme-id="' + id + '">'
+    .append('<div class="pathItemMeme rounded flex-item" data-meme-id="' + id + '">'
     + '<div class="pathItemMemeDiv rounded-top w-100">' 
-        + '<a href="../imgs/' + url + '" rel="lytebox">' 
-            + '<img class="singleMemeImg rounded-top" rel="lytebox" src="/imgs/' + url + '" />' 
-        + '</a>'
+        + '<img class="singleMemeImg rounded-top" src="/imgs/' + url + '" ondblclick="jsObject.showBigImage(event)" />' 
     + '</div>'
         + '<div class="directoryMemeNameDiv rounded-bottom">'
             + '<span data-meme-id="' + id + '">' + name + '</span>'

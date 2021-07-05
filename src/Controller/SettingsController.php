@@ -37,7 +37,7 @@ class SettingsController extends AbstractController
         }
 
         return $this->render('settings/templates/themes_settings.html.twig', [
-            'pageName' => 'Settings',
+            'pageName' => 'Themes',
             'brand' => 'MemeCloud',
             'colorPalette' => $colorPaletteTable,
             'backgroundImages' => $backgroundImageTable
@@ -54,7 +54,7 @@ class SettingsController extends AbstractController
         }
 
         return $this->render('settings/templates/meme_panel_settings.html.twig', [
-            'pageName' => 'Settings',
+            'pageName' => 'Meme panel',
             'brand' => 'MemeCloud',
         ]);
     }
@@ -69,7 +69,7 @@ class SettingsController extends AbstractController
         }
 
         return $this->render('settings/templates/account_settings.html.twig', [
-            'pageName' => 'Settings',
+            'pageName' => 'Account',
             'brand' => 'MemeCloud',
         ]);
     }
@@ -84,7 +84,7 @@ class SettingsController extends AbstractController
         }
 
         return $this->render('settings/templates/access_settings.html.twig', [
-            'pageName' => 'Settings',
+            'pageName' => 'Access',
             'brand' => 'MemeCloud',
         ]);
     }
@@ -99,7 +99,7 @@ class SettingsController extends AbstractController
         }
 
         return $this->render('settings/templates/pro_settings.html.twig', [
-            'pageName' => 'Settings',
+            'pageName' => 'Premium',
             'brand' => 'MemeCloud',
         ]);
     }

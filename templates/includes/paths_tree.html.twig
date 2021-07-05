@@ -1,0 +1,48 @@
+{% block pathsTree %}
+    {% if app.request.get('_route') == 'meme_panel' %} 
+        <div class="pathsTreeMainDiv d-flex justify-content-start"> 
+            <div class="pathsTree rounded pl-2 pr-2 text-uppercase">
+                <a href="{{ path('meme_panel') }}">
+                        <i class="fas fa-home"></i> 
+                </a>   
+            </div>
+        </div>        
+    {% elseif app.request.get('_route') == 'directory' %}      
+        <div class="pathsTreeMainDiv d-flex justify-content-start"> 
+            {% if pathsTree['main_path'] is defined %}
+                <div class="pathsTree rounded pl-2 pr-2 text-uppercase">
+                    <a href="{{ path('meme_panel') }}">
+                            <i class="fas fa-home"></i>  
+                    </a>   
+                    <i class="fas fa-angle-right"></i>
+                    <a href="/meme/{{pathsTree['current_path_id']}}">
+                        <span class="rounded"><i class="fas fa-folder"></i> {{ pathsTree['current_path_name'] }}</span>
+                    </a>
+                </div>    
+            {% else %}
+                <div class="pathsTree rounded pl-2 pr-2 text-uppercase">
+                    <a href="{{ path('meme_panel') }}">
+                            <i class="fas fa-home"></i>   
+                    </a>
+                    <i class="fas fa-angle-right"></i>
+                    <a href="/meme/{{pathsTree['previous_path_id']}}">
+                        <i class="fas fa-folder"></i>
+                    </a> 
+                    <i class="fas fa-angle-right"></i>
+                    <a href="/meme/{{pathsTree['current_path_id']}}">
+                        <span class="rounded"><i class="fas fa-folder"></i> {{ pathsTree['current_path_name']|length > 15 ? pathsTree['current_path_name']|slice(0, 15) ~ '...' :  pathsTree['current_path_name']}}</span>
+                    </a>
+                </div>  
+            {% endif %}
+        </div>
+    {% endif %} 
+
+    {% if app.request.get('_route') == 'meme_panel' or app.request.get('_route') == 'directory' %}
+        <div class="searchBar">
+            <div class="">
+                <input class="searchMemeBar rounded px-2" type="text" onkeyup="jsObject.searchMemes(event)" placeholder="Search by meme or directory name" />
+                <div id="foundMemesBox"></div>
+            </div>
+        </div>
+    {% endif %}    
+{% endblock %}

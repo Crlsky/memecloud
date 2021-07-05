@@ -1,0 +1,41 @@
+{% if serchedMemes is empty and searchedDirectories is empty %}
+<div class="flexItemParentMemes flexItemsParent justify-content-start flex-wrap"></div>
+    <span class="memeSectionTitle mb-3"><span>No search results for: {{ searchQuerry }}</span></span>
+</div> 
+{% else %}
+    <span class="memeSectionTitle mb-3"><span>Search results for: {{ searchQuerry }}</span></span>
+{% endif %}
+
+{% if searchedDirectories %}
+<span class="memeSectionTitle mb-3"><span>Directories</span></span>
+<div class="flexItemParentPaths flexItemsParent justify-content-start flex-wrap mb-5">
+    {% for path in searchedDirectories %}
+        <div class="pathItemsContext pathItem rounded flex-item">
+            <a class="directoryRoute" ondblclick="jsObject.goToDirectory(event, {{ path.directory_id }})">
+                <div class="directoryImgDiv h-100">
+                    <i class="fas fa-folder directoryImg fa-2x"></i>
+                </div>
+                <div class="directoryPathNameDiv h-100">
+                    <span>{{ path.directory_name }}</span>
+                </div>
+                <div class="dropArea"></div>
+            </a> 
+        </div>   
+    {% endfor %}
+</div> 
+{% endif %}
+{% if serchedMemes is not empty %} 
+<span class="memeSectionTitle mb-3"><span>Memes</span></span>
+<div class="flexItemParentMemes flexItemsParent justify-content-start flex-wrap">
+    {% for meme in serchedMemes %}
+        <div class="pathItemMeme rounded flex-item">
+            <div class="pathItemMemeDiv rounded-top w-100">
+                <img class="singleMemeImg rounded-top" src="../imgs/{{ meme.meme_path }}" ondblclick="jsObject.showBigImage(event)" />
+            </div>    
+            <div class="directoryMemeNameDiv rounded-bottom">
+                <span data-meme-id="">{{ meme.meme_name }}</span>
+            </div>
+        </div> 
+    {% endfor %}
+</div>
+{% endif %}

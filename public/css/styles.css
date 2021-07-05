@@ -94,6 +94,10 @@ body {
   text-align: left;
 }
 
+._visible_none {
+  display: none;
+}
+
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important;
 }
@@ -10296,17 +10300,16 @@ body {
 }
 
 .pathsTreeMainDiv {
-  width: 100%;
+  width: auto;
   position: absolute;
   top: 0;
   left: 0;
   padding: 1.5rem 2rem;
+  z-index: 999;
 }
 
 .pathsTree {
   position: relative;
-  z-index: 999;
-  width: max-content;
   font-size: 14px;
   padding: .25rem;
   font-weight: 500;
@@ -10518,10 +10521,33 @@ input[type=checkbox] {
 
 .flexItemsParent {
   display: grid !important;
-  grid-template-columns: repeat(auto-fill,minmax(220px,1fr)) !important;
+  grid-template-columns: repeat(auto-fill,minmax(210px,1fr)) !important;
+  gap: 1rem;
 }
 
-.memePanelMainDiv {
+.dropArea{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.draggableImg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0; 
+  top: 0;
+}
+
+.dragOpacity {
+  opacity: 0.2;
+}
+
+.droptarget {
+  padding: 7px;
+}
+
+.memePanelMainDiv, .searchedMemePanelDiv {
   width: 100%;
   height: 85%;
   min-width: 80% !important;
@@ -10537,7 +10563,7 @@ input[type=checkbox] {
     display: grid !important;
     grid-template-columns: repeat(auto-fill,minmax(170px,1fr)) !important;
   }
-  .memePanelMainDiv {
+  .memePanelMainDiv, .searchedMemePanelDiv {
     padding: 0.5rem 0 0 0;
   }
 }
@@ -10547,7 +10573,7 @@ input[type=checkbox] {
     display: block !important;
     width: 95% !important;
   }
-  .memePanelMainDiv {
+  .memePanelMainDiv, .searchedMemePanelDiv {
     width: 95% !important;
   }
   .pathsTreeMainDiv {
@@ -10559,6 +10585,39 @@ input[type=checkbox] {
   .pathsTreeMainDiv {
     padding: 1rem 1rem;
   }
+}
+
+.searchBar {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 1.5rem 2rem;
+  z-index: 999;
+}
+
+.searchMemeBar::-webkit-input-placeholder {
+  opacity: 0.4;
+}
+
+.searchBar div {
+  position: relative;
+}
+
+.searchBar div input {
+  min-width: 300px;
+  color: #fff !important;
+  font-size: 18px !important;
+  background-color: #17252A !important;
+  box-shadow: none !important;
+  border: solid 1px #fff !important;
+}
+
+.searchBar div input:focus {
+  outline: none;
+}
+
+#foundMemesBox {
+  color: #fff !important;
 }
 
 .memeSectionTitle {
@@ -10577,6 +10636,10 @@ input[type=checkbox] {
   font-weight: 500;
 }
 
+.pathItemsContext {
+  position: relative;
+}
+
 .pathItem {
   height: 45px;
   background-color: #17252A;
@@ -10584,12 +10647,25 @@ input[type=checkbox] {
               0 2px 2px rgba(0,0,0,0.15), 
               0 4px 4px rgba(0,0,0,0.15), 
               0 8px 8px rgba(0,0,0,0.15);
+  transition: .3s;
+  cursor: pointer;
+}
+
+.dragHover {
+  background-color: #3AAFA9;
+  transition: .3s;
+}
+
+.pathItem:hover {
+  background-color: #3AAFA9;
+  transition: .3s;
 }
 
 .directoryImgDiv {
   width: 20%;
   float: left;
   padding: 5px 12px;
+  position: absolute;
 }
 
 .directoryImg {
@@ -10621,10 +10697,13 @@ input[type=checkbox] {
 }
 
 .directoryPathNameDiv {
-  width: 80%;
+  width: 100%;
   padding: 10px 12px;
   text-align: left;
   float: left;
+  right: 0;
+  position: absolute;
+  pointer-events: visible;
 }
 
 .directoryPathNameDiv span {
@@ -10632,14 +10711,20 @@ input[type=checkbox] {
   color: #fff;
   font-weight: 500;
   font-size: 14px;
-  padding-left: 5px;
+  padding-left: 45px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+.directoryDragEffect {
+  border: solid 1px white;
+  transition: .5s;
+}
+
 .pathItemMeme {
   height: 190px;
+  cursor: pointer;
   box-shadow: 0 1px 1px rgba(0,0,0,0.15), 
               0 2px 2px rgba(0,0,0,0.15), 
               0 4px 4px rgba(0,0,0,0.15), 
@@ -10650,6 +10735,7 @@ input[type=checkbox] {
   height: 150px;
   overflow: hidden;
   position: relative;
+  padding-top: 1px;
   margin-bottom: -1px;
 }
 
@@ -10674,12 +10760,28 @@ input[type=checkbox] {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 14px;
+  pointer-events: none;
 }
 
 .directoryMemeNameDiv span {
   color: #fff;
   font-weight: 500;
   text-align: center;
+}
+
+.copyMemeBox {
+  position: absolute;
+  z-index: 999;
+  background-color: #17252A;
+  top: 0;
+  right: 0;
+  padding: 0.5rem 1rem;
+  font-size: 24px;
+  border-radius: 0 .25rem 0 .25rem;
+}
+
+.copyMemeBox svg {
+  pointer-events: none;
 }
 
 .dropdown-menu {
@@ -11023,4 +11125,20 @@ input[type=checkbox] {
 .context-menu-icon.context-menu-icon--fa5 i, .context-menu-icon.context-menu-icon--fa5 svg {
   top: 0.9em !important;
   color: #fff !important;
+}
+
+#showBigImage.active {
+  display: flex !important;
+  z-index: 1000;
+}
+
+#overlay.active {
+  z-index: 1000;
+}
+
+#showBigImage img {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  max-height: 700px;
 }

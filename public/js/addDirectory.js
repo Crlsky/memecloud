@@ -55,7 +55,7 @@ let addNewDirectory = (id, dirName) => {
         if (document.querySelector(".memeSectionTitleDir") === null) { 
             dirSpan.append("Directories");
         }
-        dirSpan.classList.add("memeSectionTitleDir", "mb-3", "ml-2");
+        dirSpan.classList.add("memeSectionTitleDir", "mb-3");
 
         document.querySelector('.flexItemParentPaths').before(dirSpan);
         document.querySelector('.flexItemParentPaths').classList.add('mb-5');
@@ -65,8 +65,8 @@ let addNewDirectory = (id, dirName) => {
         }
 
         $('.flexItemParentPaths')
-        .append('<div class="pathItemsContext pathItem rounded flex-item ml-2 mr-2 mb-3" data-path-id="'+id+'">'
-        +'<a class="directoryRoute" href="/meme/'+id+'">'
+        .append('<div class="pathItemsContext pathItem rounded flex-item" data-path-id="'+id+'">'
+        +'<a class="directoryRoute" ondblclick="jsObject.goToDirectory(event,'+id+')">'
             +'<div class="directoryImgDiv h-100">'
                 +'<i class="fas fa-folder directoryImg fa-2x"></i>'
             +'</div>'
@@ -77,8 +77,8 @@ let addNewDirectory = (id, dirName) => {
         +'</div>');
     } else {
         $('.flexItemParentPaths')
-        .append('<div class="pathItemsContext pathItem rounded flex-item ml-2 mr-2 mb-3" data-path-id="'+id+'">'
-        +'<a class="directoryRoute" href="/meme/'+id+'">'
+        .append('<div class="pathItemsContext pathItem rounded flex-item" data-path-id="'+id+'">'
+        +'<a class="directoryRoute" ondblclick="jsObject.goToDirectory(event,'+id+')">'
             +'<div class="directoryImgDiv h-100">'
                 +'<i class="fas fa-folder directoryImg fa-2x"></i>'
             +'</div>'

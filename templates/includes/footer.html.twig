@@ -1,0 +1,19 @@
+{% block footer %} 
+    {% if app.request.get('_route') == 'main' or app.request.get('_route') == 'app_login' or app.request.get('_route') == 'app_register' %}
+        <div class="siteFooter">
+            <a class="" href="https://www.facebook.com/"><i class="fab fa-facebook-square fa-2x"></i></a>
+            <a class="" href="https://www.instagram.com/"><i class="fab fa-instagram fa-2x"></i></a>
+            <a class="" href="#"><i class="fas fa-plus-square fa-2x"></i></a>
+            <a class="" href="https://www.paypal.com/paypalme/wiadro50zl"><i class="fab fa-paypal fa-2x"></i></a>
+            <a class="" href="{{ path('contact') }}"><i class="fas fa-envelope-square fa-2x"></i></a>   
+            <div class="credentials mt-1">
+                <span class="rounded pt-1 pb-1 pl-2 pr-2">Created by Sqbany122 & Crlsky</span>
+            </div>
+        </div>
+    {% endif %}     
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and app.request.get('_route') != 'main' %}
+        <div id="sidebarExpandBtn" class="sidebarExpandBtn">
+            <i class="fas fa-bars"></i>
+        </div>
+    {% endif %} 
+{% endblock %}

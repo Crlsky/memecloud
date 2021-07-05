@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use \Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Response;
 
 class MemePanelController extends AbstractController
 {
@@ -60,6 +61,52 @@ class MemePanelController extends AbstractController
             'pathsTree' => $pathsTree,
             'emptyDirMessage' => "This directory is empty. Add some memes :). Use right click to add new directory or upload new meme.",
             'brand' => 'MemeCloud',
+        ]);
+    }
+
+    /**
+     * @Route("/search/{id}", methods={"GET","HEAD"})
+     */
+    public function searchMemes($id) {    
+        $memesDb = $this->dbMemesClass();
+        $localizationDb = $this->dbLocalizationClass();
+        $memeImagesTab = array();
+        $directoriesTab = array();
+
+        $memes = $memesDb->createQueryBuilder("m")
+                ->where("m.meme_name LIKE :search_string")
+                ->andWhere("m.id_user = :user_id")
+                ->setParameter("search_string", $id."%")
+                ->setParameter("user_id", $this->getUser()->getId())
+                ->getQuery()
+                ->getResult();
+
+        $directories = $localizationDb->createQueryBuilder("d")
+                    ->where("d.directory_name LIKE :search_string")
+                    ->andWhere("d.id_user = :user_id")
+                    ->setParameter("search_string", $id."%")
+                    ->setParameter("user_id", $this->getUser()->getId())
+                    ->getQuery()
+                    ->getResult();
+
+        foreach($memes as $meme) {
+            array_push($memeImagesTab, array(
+                'meme_path' => $meme->getMemeChecksum().".jpeg",
+                'meme_name' => $meme->getMemeName()
+            ));
+        }     
+        
+        foreach($directories as $directory) {
+            array_push($directoriesTab, array(
+                'directory_id' => $directory->getId(),
+                'directory_name' => $directory->getDirectoryName()
+            ));
+        }
+
+        return $this->render('includes/search.html.twig', [
+            'serchedMemes' => $memeImagesTab,
+            'searchedDirectories' => $directoriesTab,
+            'searchQuerry' => $id
         ]);
     }
     
