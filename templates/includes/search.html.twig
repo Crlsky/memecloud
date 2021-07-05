@@ -29,12 +29,14 @@
 <div class="flexItemParentMemes flexItemsParent justify-content-start flex-wrap">
     {% for meme in serchedMemes %}
         <div class="pathItemMeme rounded flex-item">
-            <div class="pathItemMemeDiv rounded-top w-100">
+            <div class="pathItemMemeDiv w-100 {{ (userSettings[0].show_memes_nametags == 0) ? 'h-100 rounded' : 'rounded-top' }}">
                 <img class="singleMemeImg rounded-top" src="../imgs/{{ meme.meme_path }}" ondblclick="jsObject.showBigImage(event)" />
             </div>    
-            <div class="directoryMemeNameDiv rounded-bottom">
-                <span data-meme-id="">{{ meme.meme_name }}</span>
-            </div>
+            {% if userSettings[0].show_memes_nametags == 1 %}
+                <div class="directoryMemeNameDiv rounded-bottom">
+                    <span data-meme-id="">{{ meme.meme_name }}</span>
+                </div>
+            {% endif %}
         </div> 
     {% endfor %}
 </div>

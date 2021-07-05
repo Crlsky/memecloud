@@ -5,4 +5,10 @@
 {% endblock %}
 
 {% block settingsBody %}
+    <div class="singleSection w-100 mb-4">
+        <div class="text-light py-2">
+            <input id="showMemesNameTags" class="align-middle mr-2" type="checkbox" {{ (showMemesNametags == 1) ? 'checked' : '' }} onchange="jsObject.memesNametags(event)" />
+            <label for="showMemesNameTags">Show name tags under each meme</label>
+        </div>
+    </div>    
 {% endblock %}

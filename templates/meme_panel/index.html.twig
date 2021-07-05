@@ -44,15 +44,17 @@
                             </div> 
                         {% endif %}
                             <div class="pathItemMeme rounded flex-item" data-meme-id="{{ meme[0] }}">
-                                <div class="pathItemMemeDiv rounded-top w-100">
+                                <div class="pathItemMemeDiv w-100 {{ (userSettings[0].show_memes_nametags == 0) ? 'h-100 rounded' : 'rounded-top' }}">
                                     <div class="copyMemeBox _visible_none">
                                         <i class="fas fa-copy"></i>
                                     </div>
                                     <img class="singleMemeImg rounded-top" src="/imgs/{{ meme[1] }}" ondblclick="jsObject.showBigImage(event)" />  
                                 </div>    
-                                <div class="directoryMemeNameDiv rounded-bottom">
-                                    <span data-meme-id="{{ meme[0] }}">{{ meme[2] }}</span>
-                                </div>
+                                {% if userSettings[0].show_memes_nametags == 1 %}
+                                    <div class="directoryMemeNameDiv rounded-bottom">
+                                        <span data-meme-id="{{ meme[0] }}">{{ meme[2] }}</span>
+                                    </div>
+                                {% endif %}
                             </div>
                     {% endfor %}
                 </div>

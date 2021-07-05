@@ -39,9 +39,11 @@
 
     {% if app.request.get('_route') == 'meme_panel' or app.request.get('_route') == 'directory' %}
         <div class="searchBar">
-            <div class="">
-                <input class="searchMemeBar rounded px-2" type="text" onkeyup="jsObject.searchMemes(event)" placeholder="Search by meme or directory name" />
-                <div id="foundMemesBox"></div>
+            <div class="d-flex">
+                <input class="searchMemeBar rounded px-2 mr-2 _visible_none" type="text" onkeyup="jsObject.searchMemes(event)" placeholder="Search by meme or directory name" />
+                <div class="pathsTree rounded pl-2 pr-2 text-uppercase" onclick="jsObject.showSearchBar(event)">
+                    <i style="color: #fff; pointer-events: none;" class="fas fa-search"></i>
+                </div>
             </div>
         </div>
     {% endif %}    

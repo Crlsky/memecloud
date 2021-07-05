@@ -10558,35 +10558,6 @@ input[type=checkbox] {
   overflow-y: auto;
 }
 
-@media (max-width: 574px) {
-  .flexItemsParent {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fill,minmax(170px,1fr)) !important;
-  }
-  .memePanelMainDiv, .searchedMemePanelDiv {
-    padding: 0.5rem 0 0 0;
-  }
-}
-
-@media (max-width: 1656px) {
-  .memePanelLeftDiv {
-    display: block !important;
-    width: 95% !important;
-  }
-  .memePanelMainDiv, .searchedMemePanelDiv {
-    width: 95% !important;
-  }
-  .pathsTreeMainDiv {
-    padding: 1.5rem 2rem;
-  }
-}
-
-@media (max-width: 574px) {
-  .pathsTreeMainDiv {
-    padding: 1rem 1rem;
-  }
-}
-
 .searchBar {
   position: absolute;
   right: 0;
@@ -10606,18 +10577,46 @@ input[type=checkbox] {
 .searchBar div input {
   min-width: 300px;
   color: #fff !important;
-  font-size: 18px !important;
+  font-size: 14px !important;
   background-color: #17252A !important;
-  box-shadow: none !important;
-  border: solid 1px #fff !important;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.15), 
+              0 2px 2px rgba(0,0,0,0.15), 
+              0 4px 4px rgba(0,0,0,0.15), 
+              0 8px 8px rgba(0,0,0,0.15);
+  border: none !important;
 }
 
 .searchBar div input:focus {
   outline: none;
 }
 
-#foundMemesBox {
-  color: #fff !important;
+@media (max-width: 574px) {
+  .flexItemsParent {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill,minmax(170px,1fr)) !important;
+  }
+  .memePanelMainDiv, .searchedMemePanelDiv {
+    padding: 0.5rem 0 0 0;
+  }
+}
+
+@media (max-width: 1656px) {
+  .memePanelLeftDiv {
+    display: block !important;
+    width: 95% !important;
+  }
+  .memePanelMainDiv, .searchedMemePanelDiv {
+    width: 95% !important;
+  }
+  .pathsTreeMainDiv, .searchBar {
+    padding: 1.5rem 2rem;
+  }
+}
+
+@media (max-width: 574px) {
+  .pathsTreeMainDiv, .searchBar {
+    padding: 1rem 1rem;
+  }
 }
 
 .memeSectionTitle {

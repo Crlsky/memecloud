@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Localization;
 use App\Entity\Memes;
+use App\Entity\UserSettings;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -25,6 +26,7 @@ class MemePanelController extends AbstractController
         $paths = $this->getPaths();
         $checksum = $this->getMemeChecksum();
         $occupiedSpace = $this->getOccupiedSpace();
+        $userSettings = $this->getUserSettings();
 
         return $this->render('meme_panel/index.html.twig', [
             'space' => $occupiedSpace,
@@ -33,7 +35,8 @@ class MemePanelController extends AbstractController
             'pageName' => 'Meme',
             'brand' => 'MemeCloud',
             'emptyDirMessage' => "This directory is empty. Add some memes :). Use right click to add new directory or upload new meme.",
-            'pathTreeName' => 'Main directory'
+            'pathTreeName' => 'Main directory',
+            'userSettings' => $userSettings,
         ]);
     }
 
@@ -49,7 +52,7 @@ class MemePanelController extends AbstractController
         $checksum = $this->getMemeChecksum($parentId);
         $occupiedSpace = $this->getOccupiedSpace();
         $paths = $this->getPaths($parentId);
-
+        $userSettings = $this->getUserSettings();
         $pageName = $this->getDirectoryPageName($slug);
         $pathsTree = $this->getPathsTree();
 
@@ -61,6 +64,7 @@ class MemePanelController extends AbstractController
             'pathsTree' => $pathsTree,
             'emptyDirMessage' => "This directory is empty. Add some memes :). Use right click to add new directory or upload new meme.",
             'brand' => 'MemeCloud',
+            'userSettings' => $userSettings,
         ]);
     }
 
@@ -72,6 +76,7 @@ class MemePanelController extends AbstractController
         $localizationDb = $this->dbLocalizationClass();
         $memeImagesTab = array();
         $directoriesTab = array();
+        $userSettings = $this->getUserSettings();
 
         $memes = $memesDb->createQueryBuilder("m")
                 ->where("m.meme_name LIKE :search_string")
@@ -106,7 +111,8 @@ class MemePanelController extends AbstractController
         return $this->render('includes/search.html.twig', [
             'serchedMemes' => $memeImagesTab,
             'searchedDirectories' => $directoriesTab,
-            'searchQuerry' => $id
+            'searchQuerry' => $id,
+            'userSettings' => $userSettings,
         ]);
     }
     
@@ -311,6 +317,20 @@ class MemePanelController extends AbstractController
         return $occupiedSpacePercent;
     }
 
+    public function getUserSettings() {
+        $settings = array();
+        $userSettingsDb = $this->dbUserSettingsClass();
+        $userSettings = $userSettingsDb->findOneBy([
+            'id_user' => $this->getUser()->getId()
+        ]);
+
+        array_push($settings, [
+            'show_memes_nametags' => $userSettings->getShowMemesNametags(),
+        ]);
+
+        return $settings;
+    }
+
     public function getFreeSpaceByPlan() {
         return $this->getUserPlanSpace()-$this->getOccupiedSpace();
     }
@@ -326,8 +346,8 @@ class MemePanelController extends AbstractController
     }
 
     // connecting UserSetting Entity.
-    private function dbUserSettingClass() {
-        return $this->getDoctrine()->getRepository(UserSetting::class);
+    private function dbUserSettingsClass() {
+        return $this->getDoctrine()->getRepository(UserSettings::class);
     }
 
     private function checkLogin() {

@@ -36,6 +36,11 @@ class UserSettings
      */
     private $id_account_plan;
 
+    /**
+     * @ORM\Column(name="show_memes_nametags", type="integer", options={"default" : 1})
+     */
+    private $show_memes_nametags;
+
     public function setIdUser(int $id_user): self
     {
         $this->id_user = $id_user;
@@ -87,6 +92,18 @@ class UserSettings
     public function setIdAccountPlan(?int $id_account_plan): self
     {
         $this->id_account_plan = $id_account_plan;
+
+        return $this;
+    }
+
+    public function getShowMemesNametags(): ?int
+    {
+        return $this->show_memes_nametags;
+    }
+
+    public function setShowMemesNametags(?int $show_memes_nametags): self
+    {
+        $this->show_memes_nametags = $show_memes_nametags;
 
         return $this;
     }
