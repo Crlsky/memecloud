@@ -98,6 +98,14 @@ body {
   display: none;
 }
 
+._mark_element {
+  opacity: 0.7;
+}
+
+._mark_directory {
+  background-color: #3AAFA9 !important;
+}
+
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important;
 }
@@ -10529,6 +10537,7 @@ input[type=checkbox] {
   width: 100%;
   height: 100%;
   position: absolute;
+  pointer-events: none;
 }
 
 .draggableImg {
@@ -10650,13 +10659,18 @@ input[type=checkbox] {
   cursor: pointer;
 }
 
+.pathItemHidden {
+  position: relative;
+  background-color: #e76f51;
+}
+
 .dragHover {
   background-color: #3AAFA9;
   transition: .3s;
 }
 
 .pathItem:hover {
-  background-color: #3AAFA9;
+  background-color: #3AAFA9 !important;
   transition: .3s;
 }
 
@@ -10665,6 +10679,7 @@ input[type=checkbox] {
   float: left;
   padding: 5px 12px;
   position: absolute;
+  pointer-events: none;
 }
 
 .directoryImg {
@@ -10702,7 +10717,7 @@ input[type=checkbox] {
   float: left;
   right: 0;
   position: absolute;
-  pointer-events: visible;
+  pointer-events: none;
 }
 
 .directoryPathNameDiv span {
@@ -11056,6 +11071,10 @@ input[type=checkbox] {
 
 .context-menu-item {
   padding: 10px 2.5em !important;
+}
+
+.context-menu-item svg, .context-menu-item span {
+  pointer-events: none;
 }
 
 .context-menu-separator {

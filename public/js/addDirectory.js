@@ -65,27 +65,23 @@ let addNewDirectory = (id, dirName) => {
         }
 
         $('.flexItemParentPaths')
-        .append('<div class="pathItemsContext pathItem rounded flex-item" data-path-id="'+id+'">'
-        +'<a class="directoryRoute" ondblclick="jsObject.goToDirectory(event,'+id+')">'
+        .append('<div class="pathItemsContext pathItem rounded flex-item" data-path-id="'+id+'" onclick="jsObject.markDirectory(event)" ondblclick="jsObject.goToDirectory(event, '+id+')">'
             +'<div class="directoryImgDiv h-100">'
                 +'<i class="fas fa-folder directoryImg fa-2x"></i>'
             +'</div>'
             +'<div class="directoryPathNameDiv h-100">'
                 +'<span data-path-id="'+id+'">'+dirName+'</span>'
             +'</div>'
-        +'</a>'
         +'</div>');
     } else {
         $('.flexItemParentPaths')
-        .append('<div class="pathItemsContext pathItem rounded flex-item" data-path-id="'+id+'">'
-        +'<a class="directoryRoute" ondblclick="jsObject.goToDirectory(event,'+id+')">'
+        .append('<div class="pathItemsContext pathItem rounded flex-item" data-path-id="'+id+'" onclick="jsObject.markDirectory(event)" ondblclick="jsObject.goToDirectory(event, '+id+')">'
             +'<div class="directoryImgDiv h-100">'
                 +'<i class="fas fa-folder directoryImg fa-2x"></i>'
             +'</div>'
             +'<div class="directoryPathNameDiv h-100">'
                 +'<span data-path-id="'+id+'">'+dirName+'</span>'
             +'</div>'
-        +'</a>'
         +'</div>');
     }
 }

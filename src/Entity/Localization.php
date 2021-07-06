@@ -32,6 +32,11 @@ class Localization
      */
     private $directory_name;
 
+    /**
+     * @ORM\Column(name="hidden", type="integer", options={"default" : 0})
+     */
+    private $hidden;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class Localization
     public function setDirectoryName(string $directory_name): self
     {
         $this->directory_name = $directory_name;
+
+        return $this;
+    }
+
+    public function getHidden(): ?int
+    {
+        return $this->hidden;
+    }
+
+    public function setHidden(?int $hidden): self
+    {
+        $this->hidden = $hidden;
 
         return $this;
     }

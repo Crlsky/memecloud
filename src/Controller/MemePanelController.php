@@ -104,7 +104,8 @@ class MemePanelController extends AbstractController
         foreach($directories as $directory) {
             array_push($directoriesTab, array(
                 'directory_id' => $directory->getId(),
-                'directory_name' => $directory->getDirectoryName()
+                'directory_name' => $directory->getDirectoryName(),
+                'hidden' => $directory->getHidden(),
             ));
         }
 
@@ -119,6 +120,7 @@ class MemePanelController extends AbstractController
     // get all directories placed in current directory and paths to them.
     private function getPaths(array $slug = NULL) {      
         $localizationDb = $this->dbLocalizationClass();
+        $pathsTab = array();
         
         $checkUser = $localizationDb->findBy(array(
             'id' => $slug,
@@ -129,35 +131,21 @@ class MemePanelController extends AbstractController
                 throw new NotFoundHttpException('Sorry not existing!');
            }
         }
-    
-        if ($this->getUrl() == '/meme') {
-    
-            $localization = $localizationDb->findBy(array(
-                'id_parent' => $slug,
-                'id_user' => $this->getUser()->getId()
-            ));
 
-            foreach ($localization as $key => $data) {
-                $pathId[$key] = $data->getId();
-                $paths[$key] = $data->getDirectoryName();
-            }
-        } else {        
-            $localization = $localizationDb->findBy(array(
-                'id_parent' => $slug,
-                'id_user' => $this->getUser()->getId()
+        $localization = $localizationDb->findBy(array(
+            'id_parent' => $slug,
+            'id_user' => $this->getUser()->getId()
+        ));
+
+        foreach ($localization as $key => $data) {
+            array_push($pathsTab, array(
+                'id' => $data->getId(),
+                'name' => $data->getDirectoryName(),
+                'hidden' => $data->getHidden(),
             ));
-            foreach ($localization as $key => $data) {
-                $pathId[$key] = $data->getId();
-                $paths[$key] = $data->getDirectoryName();
-            }            
-        }
-        if (empty($paths)) {
-            $mappedArray = NULL;
-        } else {
-            $mappedArray = array_map(null, $pathId, $paths);
         }
 
-        return $mappedArray;
+        return $pathsTab;
     }
 
     // get all memes placed in current directory
@@ -326,6 +314,8 @@ class MemePanelController extends AbstractController
 
         array_push($settings, [
             'show_memes_nametags' => $userSettings->getShowMemesNametags(),
+            'show_directories' => $userSettings->getShowDirectories(),
+            'show_hidden_directories' => $userSettings->getShowHiddenDirectories(),
         ]);
 
         return $settings;

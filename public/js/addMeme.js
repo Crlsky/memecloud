@@ -42,10 +42,10 @@ document.getElementById('btnAddMeme').addEventListener('click', (e) => {
                 document.getElementById('emptyDirectoryId').remove();
             }
 
-            addMemeDiv(data.id, data.url, data.name);
+            addMemeDiv(data.id, data.url, data.name, data.show_nametags);
             addMemePopup(data.name);
         } else {
-            addMemeDiv(data.id, data.url, data.name);
+            addMemeDiv(data.id, data.url, data.name, data.show_nametags);
             addMemePopup(data.name);
         }
     });
@@ -54,14 +54,23 @@ document.getElementById('btnAddMeme').addEventListener('click', (e) => {
     formData.delete('id_directory');
 });
 
-let addMemeDiv = (id, url, name) => {
-    $('.flexItemParentMemes')
-    .append('<div class="pathItemMeme rounded flex-item" data-meme-id="' + id + '">'
-    + '<div class="pathItemMemeDiv rounded-top w-100">' 
-        + '<img class="singleMemeImg rounded-top" src="/imgs/' + url + '" ondblclick="jsObject.showBigImage(event)" />' 
-    + '</div>'
-        + '<div class="directoryMemeNameDiv rounded-bottom">'
-            + '<span data-meme-id="' + id + '">' + name + '</span>'
-        + '</div>' 
-    + '</div>');
+let addMemeDiv = (id, url, name, show_nametags) => {
+    if (show_nametags == 1) {
+        $('.flexItemParentMemes')
+        .append('<div class="pathItemMeme rounded flex-item" data-meme-id="' + id + '">'
+        + '<div class="pathItemMemeDiv rounded-top w-100">' 
+            + '<img class="singleMemeImg rounded-top" src="/imgs/' + url + '" onclick="jsObject.markImage(event)" ondblclick="jsObject.showBigImage(event)" />' 
+        + '</div>'
+            + '<div class="directoryMemeNameDiv rounded-bottom">'
+                + '<span data-meme-id="' + id + '">' + name + '</span>'
+            + '</div>' 
+        + '</div>');
+    } else {
+        $('.flexItemParentMemes')
+        .append('<div class="pathItemMeme rounded flex-item" data-meme-id="' + id + '">'
+            + '<div class="pathItemMemeDiv rounded w-100 h-100">' 
+                + '<img class="singleMemeImg rounded-top" src="/imgs/' + url + '" onclick="jsObject.markImage(event)" ondblclick="jsObject.showBigImage(event)" />' 
+            + '</div>'
+        + '</div>');
+    }
 }

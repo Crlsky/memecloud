@@ -56,20 +56,34 @@ class SettingsController extends AbstractController
             return new RedirectResponse('/login');
         }
 
+        $settingsTab = array();
+
         $userSettingsDb = $this->dbUserSettingsClass();
         $userSettings = $userSettingsDb->findBy(array(
             'id_user' => $this->getUser()->getId()
         ));
 
         foreach ($userSettings as $settings) {
-            $showMemesNametags = $settings->getShowMemesNametags();
+            array_push($settingsTab, array(
+                'setShowMemesNametags' => [
+                    'data' => $settings->getShowMemesNametags(),
+                    'displayText' => "Show name tags under each meme",
+                ],
+                'setShowDirectories' => [
+                    'data' => $settings->getShowDirectories(),
+                    'displayText' => "Show directories",
+                ],
+                'setShowHiddenDirectories' => [
+                    'data' => $settings->getShowHiddenDirectories(),
+                    'displayText' => "Show hidden directories",
+                ],
+            ));
         }
-
 
         return $this->render('settings/templates/meme_panel_settings.html.twig', [
             'pageName' => 'Meme panel',
             'brand' => 'MemeCloud',
-            'showMemesNametags' => $showMemesNametags,
+            'settings' => $settingsTab,
         ]);
     }
 
@@ -129,10 +143,12 @@ class SettingsController extends AbstractController
             'id_user' => $this->getUser()->getId()
         ]);
 
-        if ($decodedJson->remove_nametags === true) {
-            $userSettings->setShowMemesNametags(0);
+        $functionName = $decodedJson->parameter;
+
+        if ($decodedJson->option === true) {
+            $userSettings->$functionName(1);
         } else {
-            $userSettings->setShowMemesNametags(1);
+            $userSettings->$functionName(0);
         }
 
         $this->getDoctrine()->getManager()->persist($userSettings);

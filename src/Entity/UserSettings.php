@@ -41,6 +41,11 @@ class UserSettings
      */
     private $show_memes_nametags;
 
+    /**
+     * @ORM\Column(name="show_hidden_directories", type="integer", options={"default" : 0})
+     */
+    private $show_hidden_directories;
+
     public function setIdUser(int $id_user): self
     {
         $this->id_user = $id_user;
@@ -104,6 +109,18 @@ class UserSettings
     public function setShowMemesNametags(?int $show_memes_nametags): self
     {
         $this->show_memes_nametags = $show_memes_nametags;
+
+        return $this;
+    }
+
+    public function getShowHiddenDirectories(): ?int
+    {
+        return $this->show_hidden_directories;
+    }
+
+    public function setShowHiddenDirectories(?int $show_hidden_directories): self
+    {
+        $this->show_hidden_directories = $show_hidden_directories;
 
         return $this;
     }

@@ -10,7 +10,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use \Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Controller\MemePanelController;
 
 class DirectoriesController extends AbstractController
 {
@@ -31,6 +30,7 @@ class DirectoriesController extends AbstractController
             if ($decodedJson->parent_directory == NULL) {
                 $localization->setIdUser($this->getUser()->getId());
                 $localization->setDirectoryName($decodedJson->directory_name);
+                $localization->setHidden(0);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($localization);
                 $entityManager->flush();
@@ -47,6 +47,7 @@ class DirectoriesController extends AbstractController
                 $localization->setIdUser($this->getUser()->getId());
                 $localization->setIdParent($decodedJson->parent_directory);
                 $localization->setDirectoryName($decodedJson->new_directory_name);
+                $localization->setHidden(0);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($localization);
                 $entityManager->flush();
@@ -66,9 +67,8 @@ class DirectoriesController extends AbstractController
     /**
      * @Route("/meme/add", name="memes_add")
      */
-    public function addMeme(Request $request) {
-        $memePanel = new MemePanelController;
-
+    public function addMeme(Request $request, MemePanelController $memePanel) {
+        $options = $memePanel->getUserSettings();
         $memeInfoToFetch = array();
         $memeChecksum = basename(md5_file($_FILES['file']['tmp_name']));
         $size = ceil($_FILES['file']['size']/1024);
@@ -102,6 +102,7 @@ class DirectoriesController extends AbstractController
                 'id' => $meme->getId(),
                 'name' => $_FILES['file']['name'],
                 'url' => $memeChecksum.".jpeg",
+                'show_nametags' => $options[0]['show_memes_nametags'],
             ];
 
             return new JsonResponse($memeInfoToFetch);
@@ -304,6 +305,34 @@ class DirectoriesController extends AbstractController
         } else {
             return $this->redirectToMain();
         }
+    }
+
+    /**
+     * @Route("/hide/dir", name="hide_dir")
+     */
+    public function hideDirectory(Request $request, MemePanelController $memePanel) {
+        $clientName = $request->getContent();
+        $decodedJson = json_decode($clientName);
+
+        $localizationDb = $this->dbLocalizationClass();
+        $directory = $localizationDb->findOneBy([
+            'id' => $decodedJson->directory_id,
+            'id_user' => $this->getUser()->getId(),
+        ]);
+        
+        if (isset($decodedJson->hideDir) && $decodedJson->hideDir === true) {
+            $directory->setHidden(1);
+        } elseif (isset($decodedJson->unhideDir) && $decodedJson->unhideDir === true) {
+            $directory->setHidden(0);
+        }
+        
+        $this->getDoctrine()->getManager()->persist($directory);
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse(array(
+            'status' => "Done",
+            'show_hidden_directories' => $memePanel->getUserSettings()[0]['show_hidden_directories']
+        ));
     }
 
     // copress uploaded image to lower quality (60).

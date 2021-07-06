@@ -288,6 +288,8 @@
                 let idPath = $(this).data('path-id');
                 $('.deleteMeme').attr('data-id', idMeme);
                 $('.delDir').attr('data-id', idPath);
+                $('.hideDir').attr('data-id', idPath);
+                $('.unhideDir').attr('data-id', idPath);
                 //Show browser context-menu when preShow returns false
                 if (e.data.events.preShow($this,e) === false) {
                     return;
@@ -1166,6 +1168,12 @@
                     } else if (item.deleteDir === true) {
                         delMeme = ' delDir';
                         delDirId = ' id="deleteDirBtn"';
+                    } else if (item.hideDir === true) {
+                        delMeme = " hideDir"
+                        delDirId = " onclick='jsObject.hideDirectory(event)'"
+                    } else if (item.unhideDir === true) {
+                        delMeme = " unhideDir"
+                        delDirId = " onclick='jsObject.unhideDirectory(event)'"
                     } else {
                         modal = "";
                         delMeme = "";

@@ -44,7 +44,6 @@ $(document).ready(function() {
                     deletePopup("Directory", data)
                 });
             }
-
         },
         items: {
             "rename": {
@@ -55,6 +54,62 @@ $(document).ready(function() {
             "move": {
                 name: "Move to",
                 icon: "fas fa-suitcase",
+            },
+            "hide": {
+                hideDir: true,
+                name: "Hide",
+                icon: "fas fa-eye-slash",
+            },
+            "sep1": "---------",
+            "delete": {
+                deleteDir: true,
+                name: "Delete", 
+                icon: "delete"
+            },
+        }
+    });
+
+    $.contextMenu({
+        selector: '.pathItemHidden', 
+        callback: function(key, options) {
+            $('#renameName').val($(this).find('.directoryPathNameDiv').children('span').html());
+            $('#renameName').attr('value', $(this).find('.directoryPathNameDiv').children('span').html());
+
+            if (key == 'delete') { // checking if delete btn was clicked.
+                let pathId = $(this).attr('data-path-id'); // assign directory id to variable "pathId".
+                fetch('/delete/dir', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        deleteDir: true,
+                        id_path: pathId,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    $(this).fadeOut("slow", function() { // dynamically remove item after delete.
+                        $(this).remove();
+                    }); 
+                    deletePopup("Directory", data)
+                });
+            }
+        },
+        items: {
+            "rename": {
+                name: "Rename", 
+                icon: "edit",
+                renameDir: true
+            },
+            "move": {
+                name: "Move to",
+                icon: "fas fa-suitcase",
+            },
+            "unhide": {
+                unhideDir: true,
+                name: "Unhide",
+                icon: "fas fa-eye-slash",
             },
             "sep1": "---------",
             "delete": {

@@ -6,9 +6,13 @@
 
 {% block settingsBody %}
     <div class="singleSection w-100 mb-4">
-        <div class="text-light py-2">
-            <input id="showMemesNameTags" class="align-middle mr-2" type="checkbox" {{ (showMemesNametags == 1) ? 'checked' : '' }} onchange="jsObject.memesNametags(event)" />
-            <label for="showMemesNameTags">Show name tags under each meme</label>
+        <div class="d-flex flex-column text-light py-2">
+            {% for key_function_name, option in settings[0] %}
+                <div class="py-1">
+                    <input id="{{ key_function_name }}" class="align-middle mr-2" type="checkbox" {{ (option.data == 1) ? 'checked' : '' }} onchange="jsObject.saveOptions(event)" />
+                    <label for="{{ key_function_name }}">{{ option.displayText }}</label>
+                </div>
+            {% endfor %}
         </div>
     </div>    
 {% endblock %}
