@@ -53,6 +53,7 @@
 
 # Images
 /public/imgs
+/public/IMG
 
 #database secure
 .env
