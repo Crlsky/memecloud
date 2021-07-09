@@ -96,7 +96,7 @@ class MemePanelController extends AbstractController
 
         foreach($memes as $meme) {
             array_push($memeImagesTab, array(
-                'meme_path' => $meme->getMemeChecksum().".jpeg",
+                'meme_path' => $meme->getMemeChecksum().".png",
                 'meme_name' => $meme->getMemeName()
             ));
         }     
@@ -172,7 +172,7 @@ class MemePanelController extends AbstractController
         } else {
             foreach ($memes as $key => $data) {
                 $memeId[$key] = $data->getId();
-                $meme[$key] = $data->getMemeChecksum().".jpeg";
+                $meme[$key] = $data->getMemeChecksum().".png";
                 $memeName[$key] = $data->getMemeName();
             }
             $mappedArray = array_map(null, $memeId, $meme, $memeName);

@@ -9,8 +9,16 @@
         <div class="d-flex flex-column text-light py-2">
             {% for key_function_name, option in settings[0] %}
                 <div class="py-1">
-                    <input id="{{ key_function_name }}" class="align-middle mr-2" type="checkbox" {{ (option.data == 1) ? 'checked' : '' }} onchange="jsObject.saveOptions(event)" />
-                    <label for="{{ key_function_name }}">{{ option.displayText }}</label>
+                    <label class="label">
+                        <div class="toggle">
+                            <input id="{{ key_function_name }}" class="toggle-state" type="checkbox" {{ (option.data == 1) ? 'checked' : '' }} onchange="jsObject.saveOptions(event)" />
+                            <div class="toggle-inner">
+                            <div class="indicator"></div>
+                            </div>
+                            <div class="active-bg"></div>
+                        </div>
+                        <div class="label-text">{{ option.displayText }}</div>
+                    </label>
                 </div>
             {% endfor %}
         </div>

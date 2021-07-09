@@ -120,6 +120,9 @@
     "ocramius/proxy-manager": {
         "version": "2.2.3"
     },
+    "ourcodeworld/php-pngquant": {
+        "version": "v1.0.2"
+    },
     "php": {
         "version": "7.3"
     },

@@ -10,6 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use \Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use ourcodeworld\PNGQuant\PNGQuant;
 
 class DirectoriesController extends AbstractController
 {
@@ -79,10 +81,10 @@ class DirectoriesController extends AbstractController
             $_POST['id_directory'] = NULL;
         }
  
-        $target = $this->getParameter('kernel.project_dir') . '/public/imgs/' . basename(md5_file($_FILES['file']['tmp_name'])) . $imageExtension;
+        $target = $this->getParameter('kernel.project_dir') . '/public/imgs/' . basename(md5_file($_FILES['file']['tmp_name'])) . ".png";
 
         if (!file_exists($target) && ($_FILES['file']['type'] == "image/jpeg") || ($_FILES['file']['type'] == "image/png") || ($_FILES['file']['type'] == "image/pjpeg")) {
-            $this->compressImage($_FILES['file']['tmp_name'], $target, 60);
+            $this->compress_png($_FILES['file']['tmp_name'], $target, 60);
         }
 
         if ($_FILES['file']['error'] == 0) {
@@ -101,7 +103,7 @@ class DirectoriesController extends AbstractController
             $memeInfoToFetch = [
                 'id' => $meme->getId(),
                 'name' => $_FILES['file']['name'],
-                'url' => $memeChecksum.".jpeg",
+                'url' => $memeChecksum.".png",
                 'show_nametags' => $options[0]['show_memes_nametags'],
             ];
 
@@ -335,23 +337,22 @@ class DirectoriesController extends AbstractController
         ));
     }
 
-    // copress uploaded image to lower quality (60).
-    private function compressImage($sourceUrl, $destinationUrl, $quality) {
-        $imageInfo = getimagesize($sourceUrl);
+    private function compress_png($path_to_png_file, $destinationUrl, $quality)
+    {
+        $imageInfo = getimagesize($path_to_png_file);
 
         if ($imageInfo['mime'] == 'image/jpeg') {
-            $image = imagecreatefromjpeg($sourceUrl);
+            $image = imagecreatefromjpeg($path_to_png_file);
         }
         elseif ($imageInfo['mime'] == 'image/gif') {
-            $image = imagecreatefromgif($sourceUrl);
+            $image = imagecreatefromgif($path_to_png_file);
         }
         elseif ($imageInfo['mime'] == 'image/png') {
-            $image = imagecreatefrompng($sourceUrl);
+            $image = imagecreatefrompng($path_to_png_file);
         }
 
-        $destinationUrl = preg_replace('@\.(png|jpg|gif|bmp)@Usmi', '.jpeg', $destinationUrl);
-
-        imagejpeg($image, $destinationUrl, $quality);
+        $destinationUrl = preg_replace('@\.(jpeg|jpg|gif|bmp)@Usmi', '.png', $destinationUrl);
+        imagepng($image, $destinationUrl, 4);
         imagedestroy($image);
     }
 

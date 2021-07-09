@@ -12,6 +12,7 @@
         "lcobucci/jwt": "^3.3",
         "lexik/jwt-authentication-bundle": "^2.8",
         "nelmio/cors-bundle": "^2.1",
+        "ourcodeworld/php-pngquant": "^1.0",
         "sensio/framework-extra-bundle": "^5.6",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "5.1.*",

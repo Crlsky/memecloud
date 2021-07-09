@@ -46,11 +46,14 @@ class ApiExtensionController extends AbstractController
                 'checksum' => $memesChilds->getMemeChecksum(),
             ];
         }
+
+        $pathsTree = $this->getPathsTree($decodedJson->id_parent);
         
         $code = array(
             'code' => 200,
             'path' => (!empty($childs) ? $childs : ''),
             'meme' => (!empty($meme) ? $meme : ''),
+            'paths_tree' => (!empty($pathsTree) ? $pathsTree : ''),
         );
 
         return new Response(json_encode($code));
@@ -80,10 +83,10 @@ class ApiExtensionController extends AbstractController
         $memeChecksum = md5($content);
         $name = $data->name;
         
-        $target = $this->getParameter('kernel.project_dir') . '/public/imgs/' . $memeChecksum . '.jpeg';
+        $target = $this->getParameter('kernel.project_dir') . '/public/imgs/' . $memeChecksum . '.png';
 
         if(!file_exists($target)) {
-            $fp = fopen($this->getParameter('kernel.project_dir') . "/public/imgs/" . $memeChecksum . ".jpeg", "w");
+            $fp = fopen($this->getParameter('kernel.project_dir') . "/public/imgs/" . $memeChecksum . ".png", "w");
             $write = fwrite($fp, $content);
             $close = fclose($fp);
             
@@ -124,6 +127,55 @@ class ApiExtensionController extends AbstractController
         return new Response(json_encode($response));
     }
 
+    /**
+     * @Route("/api/search/content", name="api_extension_searchcontent", methods={"POST"})
+     */
+    public function searchMemes(Request $request) {    
+        $data = $request->getContent();
+        $data = json_decode($data);
+        $memesDb = $this->dbMemesClass();
+        $localizationDb = $this->dbLocalizationClass();
+        $memeImagesTab = array();
+        $directoriesTab = array();
+
+        $memes = $memesDb->createQueryBuilder("m")
+                ->where("m.meme_name LIKE :search_string")
+                ->andWhere("m.id_user = :user_id")
+                ->setParameter("search_string", $data->search_querry."%")
+                ->setParameter("user_id", $this->getUser()->getId())
+                ->getQuery()
+                ->getResult();
+
+        $directories = $localizationDb->createQueryBuilder("d")
+                    ->where("d.directory_name LIKE :search_string")
+                    ->andWhere("d.id_user = :user_id")
+                    ->setParameter("search_string", $data->search_querry."%")
+                    ->setParameter("user_id", $this->getUser()->getId())
+                    ->getQuery()
+                    ->getResult();
+
+        foreach($memes as $meme) {
+            array_push($memeImagesTab, array(
+                'meme_path' => $meme->getMemeChecksum(),
+                'meme_name' => $meme->getMemeName()
+            ));
+        }     
+        
+        foreach($directories as $directory) {
+            array_push($directoriesTab, array(
+                'directory_id' => $directory->getId(),
+                'directory_name' => $directory->getDirectoryName(),
+                'hidden' => $directory->getHidden(),
+            ));
+        }
+
+        return new Response(json_encode(array(
+            'memes' => $memeImagesTab,
+            'directories' => $directoriesTab
+        )));
+    }
+
+
     // connecting do Localization Entity.
     private function dbLocalizationClass() {
         return $this->getDoctrine()->getRepository(Localization::class);
@@ -132,6 +184,47 @@ class ApiExtensionController extends AbstractController
     // connecting do Memes Entity.
     private function dbMemesClass() {
         return $this->getDoctrine()->getRepository(Memes::class);
+    }
+
+    public function getPathsTree(int $directory_id = NULL) {
+        $localizationDb = $this->dbLocalizationClass();
+
+        if ($directory_id != NULL) {
+            $pathOne = $localizationDb->findBy(array(
+                'id' => $directory_id,
+            ));
+
+            foreach ($pathOne as $key => $data) {
+                if ($data->getIdParent() != NULL) {
+                    $pathTwo = $localizationDb->findBy(array(
+                        'id' => $data->getIdParent(),
+                    ));
+                } else {
+                    $pathTwo = NULL;
+                }
+            
+                $currentPathArray = [
+                    'current_path_id' => $data->getId(),
+                    'current_path_name' => $data->getDirectoryName(),
+                ];   
+            }
+
+            if ($pathTwo != NULL) {
+                foreach ($pathTwo as $key => $data) {
+                    $previousPathArray = [
+                        'previous_path_id' => $data->getId(),
+                        'previous_path_name' => $data->getDirectoryName(),
+                    ];
+                }
+            } else {
+                $previousPathArray = [
+                    'main_path' => 'main directory',
+                ];
+            }
+
+            $mergedPathsArray = array_merge($currentPathArray, $previousPathArray);
+            return $mergedPathsArray;
+        }
     }
 
     private function compressImage($sourceUrl, $destinationUrl, $quality) {
@@ -147,7 +240,7 @@ class ApiExtensionController extends AbstractController
             $image = imagecreatefrompng($sourceUrl);
         }
 
-        $destinationUrl = preg_replace('@\.(png|jpg|gif|bmp)@Usmi', '.jpeg', $destinationUrl);
+        $destinationUrl = preg_replace('@\.(png|jpg|gif|bmp)@Usmi', '.png', $destinationUrl);
 
         imagejpeg($image, $destinationUrl, $quality);
         imagedestroy($image);
